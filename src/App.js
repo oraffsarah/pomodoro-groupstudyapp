@@ -58,7 +58,7 @@ setCurrentBackground(nextBackgroundIndex);
           <button onClick={() => setTimeOn(true)}>Start</button>
           <button onClick={() => setTimeOn(false)}>Stop</button>
           <button onClick={() => setTimeOn(true)}>Resume</button>
-          <button onClick={() => setTime(0)}>Reset</button>
+          <button onClick={() => setTime(1500000)}>Reset</button>
         </div>
       </div>
     </section>
