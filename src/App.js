@@ -2,13 +2,23 @@
 import './App.css';
 import React, {useEffect, useState} from 'react';
 import GroupStudy from "./components/GroupStudy";
+import NavBar from './components/NavBar';
+import ChatBox from "./components/ChatBox";
+import Welcome from "./components/Welcome";
 
+import { auth } from "./firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 function App() {
 
+  const [user] = useAuthState(auth);
+
   return (
     <>
-      <GroupStudy />
+      <div className="App">
+        <NavBar />
+        {!user ? <Welcome /> : <ChatBox />}
+    </div>
     </>
   );
   
