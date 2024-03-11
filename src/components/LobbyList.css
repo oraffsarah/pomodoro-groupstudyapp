@@ -1,0 +1,116 @@
+/* LobbyList.css */
+
+.lobby-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto; /* Scrollable list */
+    width: 100%; /* Full width of the parent container */
+    padding: 1rem; /* Padding on the sides of the container */
+    margin: 0;
+  }
+  
+  .lobby-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space between elements */
+    padding: 1.5rem; /* Increased padding for a wider look */
+    margin-bottom: 1rem; /* Space between items */
+    background-color: #ffffff;
+    border: 1px solid #e1e4e8; /* Light grey border */
+    border-radius: 10px; /* Rounded corners for a modern look */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Soft shadow for depth */
+    transition: background-color 0.2s ease-in-out; /* Smooth transition for hover effect */
+  }
+  
+  .lobby-item:hover {
+    background-color: #f8f9fa; /* Light grey background on hover */
+  }
+  
+  .star-icon {
+    cursor: pointer;
+    width: 32px; /* Ensures the star icon is not too small */
+    height: 32px; /* Maintains aspect ratio */
+    margin-right: 20px; /* Space between star and text */
+  }
+  
+  .lobby-details {
+    flex: 1; /* Takes up remaining space */
+    overflow: hidden; /* Prevents content overflow */
+  }
+  
+  .lobby-header {
+    display: flex;
+    justify-content: space-between; /* Aligns items to the edges */
+    align-items: center; /* Vertical center alignment */
+    width: 100%; /* Full width */
+    margin-bottom: 0.5rem; /* Space below the header */
+  }
+  
+  .lobby-name {
+    font-size: 1.1rem; /* Adjusted for better readability */
+    font-weight: 500; /* Medium font weight */
+    color: #333; /* Darker text for better contrast */
+    flex: 2; /* Allows name to take extra space */
+  }
+  
+  .lobby-users,
+  .lobby-status {
+    font-size: 0.9rem; /* Smaller font size for meta information */
+    color: #666; /* Lighter color for meta info */
+    margin: 0 5px; /* Margins for spacing */
+  }
+  
+  .lobby-description {
+    font-size: 0.9rem;
+    color: #666;
+    white-space: nowrap; /* Keeps the description on one line */
+    overflow: hidden; /* Hides overflow */
+    text-overflow: ellipsis; /* Adds an ellipsis to overflowing text */
+  }
+  
+  .lobby-join-btn {
+    padding: 10px 15px; /* Padding for button size */
+    background-color: #0056b3; /* Button color */
+    color: white;
+    border: none;
+    border-radius: 20px; /* Rounded button edges */
+    cursor: pointer;
+    white-space: nowrap; /* Prevents text wrapping */
+  }
+  
+  .lobby-filters {
+    display: flex;
+    justify-content: space-between; /* Spreads filter elements */
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+    background-color: #f8f9fa; /* Filter background */
+  }
+  
+  .lobby-filters label,
+  .lobby-filters button {
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  .lobby-filters button {
+    background: none;
+    border: 1px solid #ddd; /* Adds border to filter buttons */
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+  }
+  
+  .lobby-filters button:hover,
+  .lobby-filters button.active {
+    background-color: #e7e7e7; /* Hover color for filter buttons */
+  }
+  
+  /* Styles for the checkbox */
+  .lobby-filters [type="checkbox"] {
+    margin-right: 0.5rem;
+  }
+  
+  /* Ensuring adequate spacing and size for each element should prevent overlapping and improve the professional appearance of the list. */
+  

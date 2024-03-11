@@ -1,0 +1,87 @@
+/* FriendsList.css */
+.friends-list h3,
+.friends-list ul {
+  margin: 0;
+  padding: 0;
+}
+
+.friends-list ul {
+  list-style: none;
+}
+
+.friends-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.friends-list li button {
+  padding: 5px 10px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+/* Optionally, you might want to add some styles for the search input */
+.friends-list input[type="text"] {
+  width: calc(100% - 20px);
+  padding: 8px 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.friends-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Adjust gap as needed */
+}
+
+.friend-button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: left; /* Align text to the left within the button */
+}
+
+.friend-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.friend-item {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.friend-item:hover {
+  background-color: #e0e0e0;
+}
+
+.friend-item button {
+  padding: 5px 10px;
+  background-color: #db4437;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Prevents the button click from triggering the parent div's onClick event */
+.friend-item button:focus,
+.friend-item button:hover {
+  outline: none;
+}

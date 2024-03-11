@@ -1,0 +1,110 @@
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    align-items: center; /* Center children horizontally */
+}
+
+.top-bar {
+    width: 100%;
+    max-width: 1200px; /* Maximum width for the top bar */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 20px; /* Spacing between top bar and content below */
+    background-color: #f0f0f0;
+}
+
+.search-bar input {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.action-btn {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+}
+
+.main-content {
+    width: 100%;
+    max-width: 1200px; /* Maximum width for main content */
+    flex-grow: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    margin: auto; /* Center the content if needed */
+    overflow: hidden;
+}
+
+/* Removed .lobby-list and related classes as they've been moved to LobbyList.css */
+
+.friends-list,
+.personal-sidebar {
+    position: fixed;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #f8f9fa;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    overflow-y: auto;
+    transition: transform 0.3s ease-in-out;
+}
+
+.friends-list {
+    right: 0;
+    transform: translateX(100%);
+}
+
+.friends-list.visible {
+    transform: translateX(0);
+}
+
+.personal-sidebar {
+    left: 0;
+    transform: translateX(-100%);
+}
+
+.personal-sidebar.visible {
+    transform: translateX(0);
+}
+
+.toggle-sidebar,
+.toggle-friends {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1050;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 0 5px 5px 0;
+    transition: left 0.3s ease-in-out, right 0.3s ease-in-out;
+}
+
+.toggle-sidebar {
+    left: 0;
+}
+
+.toggle-sidebar.visible {
+    left: 250px; /* Moves out with the sidebar */
+}
+
+.toggle-friends {
+    right: 0;
+    border-radius: 5px 0 0 5px; /* Adjusted for visual consistency */
+}
+
+.toggle-friends.visible {
+    right: 250px; /* Moves out with the friends list */
+}
