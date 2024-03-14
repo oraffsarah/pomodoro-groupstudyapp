@@ -5,7 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 
-// Import your Dashboard component
+// Import Dashboard component
 import Dashboard from "./components/dashboard/Dashboard";
 // Import any other pages or components you have
 import HomePage from "./components/homepage/Homepage";

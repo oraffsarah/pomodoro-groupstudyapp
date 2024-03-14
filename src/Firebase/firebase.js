@@ -5,14 +5,13 @@ import { getDatabase } from "firebase/database";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDSld3DwBbC7UVYfTjHi5Kz3xbfr8C9UhY",
-  authDomain: "team-prodigy.firebaseapp.com",
-  databaseURL: "https://team-prodigy-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "team-prodigy",
-  storageBucket: "team-prodigy.appspot.com",
-  messagingSenderId: "174908647641",
-  appId: "1:174908647641:web:5557e4722291a4113336c8",
-  measurementId: "G-HBC2VZKL50"
+  apiKey: "AIzaSyCNv4KHIXBNa5Cbw0s1_EpU2IsH2RsThPw",
+  authDomain: "react-chat-11602.firebaseapp.com",
+  databaseURL: "https://react-chat-11602-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "react-chat-11602",
+  storageBucket: "react-chat-11602.appspot.com",
+  messagingSenderId: "219582341541",
+  appId: "1:219582341541:web:f3ee404d2c76b8a6d3084c"
 };
 
 // Initialize Firebase
