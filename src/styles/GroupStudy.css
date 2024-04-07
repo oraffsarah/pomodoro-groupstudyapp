@@ -1,0 +1,47 @@
+body {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    align-items: center;
+  }
+
+.timer-div {
+    background-color: lightblue;
+}
+
+.chat-div {
+    background-color: lightsalmon;
+}
+
+.tasks-div {
+    background-color: lightseagreen;
+}
+
+.notes-div {
+    background-color: lightyellow;
+}
+
+.groupPage-container {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: 2fr 3fr;
+    justify-content: center;
+    justify-items: stretch;
+    margin: 20px;
+    width: 100%;
+    min-height:100vh;
+    margin: 0;
+    padding: 10px;
+    height: 500px;
+    background-color: aqua;
+}
+
+.exit-div{
+    display: inline-flex;
+    height: 50px;
+    width: 200px;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    background-color: white;
+}

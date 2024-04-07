@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { auth, db } from "../firebase";
+import { auth, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
@@ -26,7 +26,6 @@ const AddTask = () => {
 
     return (
         <>
-        <p>addtask running...</p>
         <form onSubmit={(event) => addTask(event)} className="add-task">
             <label htmlFor="taskInput" hidden>
             Enter Task

@@ -1,0 +1,8 @@
+.wrapper {
+    display: relative;
+}
+
+.demo {
+    position: absolute;
+    margin-bottom: auto;
+}

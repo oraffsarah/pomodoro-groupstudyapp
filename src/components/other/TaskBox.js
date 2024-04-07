@@ -6,7 +6,7 @@ import {
   onSnapshot,
   limit,
 } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import Task from "./Task";
 import AddTask from "./AddTask";
 

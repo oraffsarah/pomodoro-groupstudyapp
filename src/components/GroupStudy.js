@@ -1,11 +1,35 @@
-import React, { useState } from "react";
+import { Chat } from "./Chat";
+import { Tasks } from "./Tasks.js";
+import { Notes } from "./Notes.js";
+import { Timer } from "./Timer.js";
 
-export default function GroupStudy() {
+import '../styles/GroupStudy.css';
+
+export const GroupStudy = (props) => {
+
+    const { room } = props;
 
     return (
         <>
-            <p>hello</p>
-            <h1>test</h1>
+            <div className="groupPage-container">
+                <div className="timer-div">
+                    <Timer room={room}/>
+                </div>
+                
+                <div className="tasks-div">
+                    Tasks
+                    <Tasks room={room}/>
+                </div>
+                <div className="chat-div">
+                    <Chat room={room}/>
+                </div>
+                <div className="notes-div">
+                    <Notes />
+                </div>
+                <div className="exit-div">
+                    Exit
+                </div>
+            </div>
         </>
     );
 }
