@@ -8,6 +8,7 @@ import faveStarIcon from '../image/faveStar.png';
 const LobbyList = ({ filter }) => {
   const [lobbies, setLobbies] = useState([]);
   const [showPrivate, setShowPrivate] = useState(true);
+  const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
   const [sortBy, setSortBy] = useState('name');
   const [ascending, setAscending] = useState(true);
   const [favorites, setFavorites] = useState([]);
@@ -44,14 +45,21 @@ const LobbyList = ({ filter }) => {
   };
 
   const getFilteredAndSortedLobbies = () => {
-    let filtered = lobbies.filter(lobby => (showPrivate ? true : !lobby.isLocked) && lobby.name.toLowerCase().includes(filter.toLowerCase()));
-
-    // Sorting favorites to the top
-    let sorted = filtered.sort((a, b) => {
-      return favorites.includes(b.id) - favorites.includes(a.id) || (ascending ? (a[sortBy] < b[sortBy] ? -1 : 1) : (a[sortBy] > b[sortBy] ? -1 : 1));
-    });
-
-    return sorted;
+    return lobbies
+      .filter(lobby => showPrivate || !lobby.isLocked)
+      .filter(lobby => !showOnlyFavorites || favorites.includes(lobby.id))
+      .filter(lobby => lobby.name.toLowerCase().includes(filter.toLowerCase()))
+      .sort((a, b) => {
+        if (favorites.includes(a.id) !== favorites.includes(b.id)) {
+          return favorites.includes(b.id) ? 1 : -1;
+        }
+        if (sortBy === 'name') {
+          return ascending ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+        } else if (sortBy === 'currentUsers') {
+          return ascending ? a.currentUsers - b.currentUsers : b.currentUsers - a.currentUsers;
+        }
+        return 0;
+      });
   };
 
   return (
@@ -63,6 +71,10 @@ const LobbyList = ({ filter }) => {
             checked={showPrivate}
             onChange={() => setShowPrivate(!showPrivate)}
           /> Show Private Lobbies
+        </label>
+        <label>
+          <input type="checkbox" checked={showOnlyFavorites} onChange={() => setShowOnlyFavorites(!showOnlyFavorites)}
+          /> Show Favourited Lobbies
         </label>
         <button onClick={() => setSortBy('name')}>Sort by Name</button>
         <button onClick={() => setSortBy('currentUsers')}>Sort by Users</button>
