@@ -7,7 +7,10 @@ import image4 from "../image/river.jpg"
 import image5 from "../image/297.jpg"
 import image6 from "../image/dock.jpg"
 import GoogleButton from 'react-google-button';
+import { Button } from 'bootstrap';
 
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 const backGrounds = [image1,image2,image3,image4,image5,image6];
 
 
@@ -76,10 +79,10 @@ function Timer() {
 
   return (
 
-    <><GoogleButton
-      onClick={() => { console.log('Google button clicked'); } } /><section className="hero" style={{ backgroundImage: `url(${backGrounds[currentBackground]})` }}>
+    <><section className="hero" style={{ backgroundImage: `url(${backGrounds[currentBackground]})` }}>
         <div className="content">
-          <h1>
+          
+          <h1 class="h1">
             <span>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:</span>
             <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}</span>
           </h1>
@@ -89,22 +92,30 @@ function Timer() {
     <span>{("0" + Math.floor((time /1000 ) % 60)).slice(-2)}</span>
    </h1> */}
             <div className='themeDiv'>
-              {timerOn === false && <button onClick={changeBackground}>Change Theme</button>}
+              {timerOn === false && <button className="btn btn-primary" onClick={changeBackground}>Change Theme</button>}
             </div>
 
 
+           
 
+            <div className='mb-3'>
+              {isHovering && timerOn === false && <button className="btn btn-primary me-5" onClick={() => setTimeOn(true)}>Start</button>}
 
-            <div>
-              {isHovering && timerOn === false && <button class="start" onClick={() => setTimeOn(true)}>Start</button>}
+              {isHovering && timerOn && <button className="btn btn-primary" onClick={() => setTimeOn(false)}>Stop</button>}
 
-              {isHovering && timerOn && <button onClick={() => setTimeOn(false)}>Stop</button>}
-
-              {isHovering && timerOn === false && <button onClick={() => setTime(0)}>Reset</button>}
-
-              {isHovering && timerOn === false && <input type="number" onChange={handleMinuteChange} placeholder='Minutes'></input>}
-              {isHovering && timerOn === false && <input type="number" onChange={handleSecondsChange} placeholder='Seconds'></input>}
+              {isHovering && timerOn === false && <button className="btn btn-primary" onClick={() => setTime(0)}>Reset</button>}
             </div>
+
+
+            <div className='mb-3'> 
+              {isHovering && timerOn === false && <input type="number" class="form-control" onChange={handleMinuteChange} placeholder='Minutes'></input>}
+            </div>
+             
+             <div className='mb-3'>
+             {isHovering && timerOn === false && <input type="number" class="form-control" onChange={handleSecondsChange} placeholder='Seconds'></input>}
+             </div>
+              
+           
           </div>
         </div>
       </section></>
