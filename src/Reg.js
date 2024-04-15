@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import { auth } from "./firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { addData } from './firestoreService';
+// import 'bootstrap/dist/scc/bootstrap.css';
+// import 'bootstrap/dist/scc/bootstrap.min.css';
+//import { addData } from './firestoreService';
 
 
 function Reg() {
@@ -9,18 +11,18 @@ function Reg() {
     const [userName, setUserName] = useState(0);
 
     function onUserNameChange(event) {
-        setUserName(event.target.data);
+        setUserName(event.target.value);
     }
 
     function Submit() {
-        addData(userName);
+        console.log(userName);
     }
 
     return (
         <section>
             User Name:
-            <input onChange={onUserNameChange} type="text"></input>
-            <button onClick={Submit}>Submit</button>
+            <input onChange={onUserNameChange} type="text"/>
+            <button onClick={Submit} className='btn'>Submit</button>
         </section>
     )
 }
