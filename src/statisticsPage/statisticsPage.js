@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import './App.css';
+import './StatisticsPage.css';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, setDoc, getDoc, query, collection, where, orderBy, getDocs, addDoc } from 'firebase/firestore';
 
@@ -18,27 +18,19 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 const db = getFirestore();
 
-function App() {
+function StatisticPage() {
 const [todayHours, setTodayHours] = useState('');
 const [periodHours, setPeriodHours] = useState(null);
 const [periodText, setPeriodText] = useState('');
 const [rankings, setRankings] = useState([]);
 const userId = 'user123'; 
 
-// 获取当前日期
+// getTodayDate in Ireland timezone(GMT+1)
 function getTodayDate() {
-// 获取当前时间的时间戳
 const now = new Date();
-
-// 获取当前时区偏移的毫秒数
 const timezoneOffset = now.getTimezoneOffset() * 60 * 1000;
-
-// 转换为你所在时区的时间戳
 const localTimestamp = now.getTime() - timezoneOffset;
-
-// 生成所在时区的当前日期字符串
 const localDate = new Date(localTimestamp).toISOString().slice(0, 10);
-
 return localDate;
 }
 
@@ -151,7 +143,7 @@ return (
     </div>
     )}
     <div id="rankingDisplay">
-    <h2>Today's Study Time Rankings</h2>
+    <h2>Today's Rankings</h2>
     {rankings.length > 0 ? (
         <ol>
         {rankings.map((user, index) => (
@@ -173,4 +165,4 @@ return (
 );
 }
 
-export default App;
+export default StatisticPage;
