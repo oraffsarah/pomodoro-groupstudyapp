@@ -1,0 +1,100 @@
+.userRankList {
+max-width: 600px; /* 或者您期望的最大宽度 */
+margin: auto;
+}
+
+.userRankItem {
+display: flex;
+align-items: center;
+margin-bottom: 10px;
+padding: 10px;
+background-color: #f7f7f7;
+border-radius: 8px;
+}
+
+.rank {
+margin-right: 20px;
+font-weight: bold;
+font-size: 1.2em;
+}
+
+.avatar {
+width: 50px; /* 头像大小 */
+height: 50px;
+border-radius: 50%;
+margin-right: 20px;
+}
+
+.userName {
+flex-grow: 1;
+font-size: 1em;
+margin-right: 20px;
+}
+
+.time {
+font-size: 1em;
+color: #555;
+}
+
+/* 您可以添加一些媒体查询来处理响应式布局 */
+@media (max-width: 768px) {
+.userRankItem {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.rank, .avatar, .userName, .time {
+    margin-right: 0;
+    margin-bottom: 10px;
+}
+}
+
+.year-grid {
+display: grid;
+grid-template-columns: repeat(52, auto); /* Assuming 52 weeks in a year */
+gap: 2px;
+}
+
+.day {
+width: 10px; /* or any size you want */
+height: 10px;
+border-radius: 2px;
+}
+
+/* App.css */
+
+/* 其他样式保持不变 */
+
+/* 排名列表样式 */
+#rankingDisplay {
+margin-top: 20px;
+}
+
+#rankingDisplay h2 {
+margin-bottom: 10px;
+}
+
+#rankingDisplay ol {
+padding-left: 0;
+list-style: none;
+}
+
+#rankingDisplay li {
+display: flex;
+align-items: center;
+margin-bottom: 10px;
+background-color: #f2f2f2;
+border-radius: 5px;
+padding: 10px;
+}
+
+#rankingDisplay span {
+margin-right: 10px;
+}
+
+#rankingDisplay img {
+width: 40px;
+height: 40px;
+border-radius: 50%;
+object-fit: cover;
+}
