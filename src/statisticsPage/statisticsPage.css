@@ -98,3 +98,24 @@ height: 40px;
 border-radius: 50%;
 object-fit: cover;
 }
+
+
+.ranking-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0; /* 添加一些垂直间距 */
+}
+
+.ranking-item div {
+    display: flex;
+    align-items: center;
+}
+
+.ranking-item img {
+    margin-right: 10px; /* 头像和用户名之间的间距 */
+}
+
+.ranking-item span {
+    margin-right: 15px; /* 用户名和学习时长之间的间距 */
+}
