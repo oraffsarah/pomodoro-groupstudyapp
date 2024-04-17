@@ -84,6 +84,10 @@ function login() {
 			database_ref.child("users/" + user.uid).update(user_data);
 
 			alert("User logged in");
+			// navigate to home
+			window.location = "home.html";
+			// save user data in local storage
+			localStorage.setItem("user", JSON.stringify(user));
 		})
 		.catch(function (error) {
 			var error_code = error.code;
