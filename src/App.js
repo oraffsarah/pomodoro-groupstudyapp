@@ -1,35 +1,40 @@
-
-import './App.css';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Dashboard from './components/dashboard/Dashboard';
+// import Home from './components/homepage/Homepage';
+import Login from './components/login/Login';
+import Navbar from './components/navbar/Navbar';
+import { UserProvider } from './components/auth/UserContext';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import Room from './components/rooms/Room';
+import { RoomManagerProvider } from './components/rooms/RoomManagerContext';
+import Timer from './components/Timer';
 import GoogleButton from 'react-google-button'
 
-import Timer from './components/Timer';
-import SignIn from './pages/Signin';
-import { Routes ,Route } from 'react-router-dom';
-import { AuthContextProvider } from './context/authContext';
-import Account from './pages/Account';
-import Home from './pages/Home';
-
-
-
-
-
-
-function App() {
-  
-
+const App = () => {
   return (
- 
-
-  <Timer></Timer> 
-
-
+    <UserProvider>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Timer />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/rooms/:roomId" element={
+            <RoomManagerProvider> {/* Ensure provider wraps the Room component */}
+              <ProtectedRoute>
+                <Room />
+              </ProtectedRoute>
+            </RoomManagerProvider>
+          } />
+        </Routes>
+      </Router>
+    </UserProvider>
   );
-}
-      
+};
 
 export default App;
-
-
-
-
