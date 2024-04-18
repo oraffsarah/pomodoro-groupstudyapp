@@ -27,37 +27,6 @@ function App() {
   );
 }
       
-{/* <AuthContextProvider>
-<Routes> 
-  <Route path='/' element={<Home/>}/>
-  <Route path='/signin' element={<SignIn/>}/>
-  <Route path='account' element={<Account/>}/>
-  </Routes>
-
- <SignIn/>
-
- </AuthContextProvider> */}
-
-
-
-
-//  <AuthContextProvider>
-//   </NavBar>
-//   <Routes> 
-//   <Route path='/' element={<Home/>}/>
-//   <Route path='/signin' element={<Signin/>}/>
-//   <Route path='/account' element={<Account/>}/>
-//  </Routes>
-
-//  </AuthContextProvider>
-//  <Routes> 
-//   <Route path='/' element={<Home/>}/>
-//   <Route path='/signin' element={<Signin/>}/>
-//   <Route path='/account' element={<Account/>}/>
-//  </Routes>
-  
-  
-
 
 export default App;
 
