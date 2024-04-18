@@ -15,31 +15,7 @@ const firebaseConfig = {
   appId: "1:219582341541:web:f3ee404d2c76b8a6d3084c"
 };
 
-function googleSignIn() {
-  var provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth()
-    .signInWithPopup(provider)
-    .then((result) => {
-      // This gives you a Google Access Token. You can use it to access Google APIs.
-      var token = result.credential.accessToken;
-      // The signed-in user info.
-      var user = result.user;
-      console.log("User signed in: ", user.displayName);
-      // You can store the user info like this:
-      storeUserInfo(user.uid, user.displayName, user.email);
-    }).catch((error) => {
-      console.log("Authentication failed:", error);
-    });
-}
 
-function storeUserInfo(userId, name, email) {
-  firebase.database().ref('users/' + userId).set({
-    username: name,
-    email: email
-  })
-  .then(() => console.log("User information stored successfully."))
-  .catch((error) => console.error("Failed to store user information", error));
-}
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
