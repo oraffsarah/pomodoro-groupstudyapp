@@ -16,7 +16,7 @@ function Reg() {
     }
 
     function Submit() {
-        console.log(userName);
+        addData(userName);
     }
 
     return (
