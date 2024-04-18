@@ -3,13 +3,13 @@ import './Dashboard.css';
 import { ref, onValue, push, getDatabase } from 'firebase/database';
 import { app } from '../../Firebase/firebase';
 
-// Import all your components
+// Import all components
 import SearchBar from '../SearchBar';
 import LobbyList from '../LobbyList';
 import FriendsList from '../FriendsList';
 import PersonalSidebar from '../PersonalSidebar';
 import CreateLobbyModal from '../CreateLobbyModal';
-import ChatModal from '../ChatModal'; // Make sure you have this component created for chat functionality
+import ChatModal from '../ChatModal';
 
 const Dashboard = () => {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -36,7 +36,7 @@ const Dashboard = () => {
 
   // UPDATE FOR FIREBASE
   const [currentUser, setCurrentUser] = useState({
-    uniqueId: 'user123',
+    uid: 'user123',
     name: 'Current User'
   });
 

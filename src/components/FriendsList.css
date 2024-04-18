@@ -26,7 +26,6 @@
   cursor: pointer;
 }
 
-/* Optionally, you might want to add some styles for the search input */
 .friends-list input[type="text"] {
   width: calc(100% - 20px);
   padding: 8px 10px;

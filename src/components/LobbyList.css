@@ -1,5 +1,3 @@
-/* LobbyList.css */
-
 .lobby-list {
     display: flex;
     flex-direction: column;
@@ -111,6 +109,3 @@
   .lobby-filters [type="checkbox"] {
     margin-right: 0.5rem;
   }
-  
-  /* Ensuring adequate spacing and size for each element should prevent overlapping and improve the professional appearance of the list. */
-  

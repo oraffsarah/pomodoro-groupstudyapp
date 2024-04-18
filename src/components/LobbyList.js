@@ -4,6 +4,7 @@ import { ref, onValue, getDatabase } from 'firebase/database';
 import { app } from '../Firebase/firebase';
 import unFaveStarIcon from '../image/unFaveStar.png';
 import faveStarIcon from '../image/faveStar.png';
+import useRoomManager from './rooms/useRoomManager';
 
 const LobbyList = ({ filter }) => {
   const [lobbies, setLobbies] = useState([]);
@@ -12,18 +13,23 @@ const LobbyList = ({ filter }) => {
   const [sortBy, setSortBy] = useState('name');
   const [ascending, setAscending] = useState(true);
   const [favorites, setFavorites] = useState([]);
+  
+  const { addUserToRoom } = useRoomManager();
 
   const fetchLobbies = () => {
     const database = getDatabase(app);
     const lobbyRef = ref(database, 'lobbies');
     onValue(lobbyRef, snapshot => {
       const lobbiesData = snapshot.val();
-      const lobbiesList = lobbiesData
-        ? Object.keys(lobbiesData).map(key => ({
-            ...lobbiesData[key],
-            id: key,
-          }))
-        : [];
+      const lobbiesList = lobbiesData ? Object.keys(lobbiesData).map(key => {
+        const lobby = lobbiesData[key];
+        const currentUsersCount = lobby.currentUsers ? Object.keys(lobby.currentUsers).length : 0;
+        return {
+          ...lobby,
+          id: key,
+          currentUsersCount
+        };
+      }) : [];
       setLobbies(lobbiesList);
     });
   };
@@ -33,15 +39,17 @@ const LobbyList = ({ filter }) => {
   }, []);
 
   const handleRefresh = () => {
-    fetchLobbies(); // Refresh the lobbies
+    fetchLobbies();
   };
 
   const toggleFavorite = (id) => {
     setFavorites(currentFavorites =>
-      currentFavorites.includes(id)
-        ? currentFavorites.filter(favId => favId !== id)
-        : [...currentFavorites, id]
+      currentFavorites.includes(id) ? currentFavorites.filter(favId => favId !== id) : [...currentFavorites, id]
     );
+  };
+
+  const handleJoinLobby = (roomId) => {
+    addUserToRoom(roomId); // Use RoomManager to add user to room
   };
 
   const getFilteredAndSortedLobbies = () => {
@@ -56,7 +64,7 @@ const LobbyList = ({ filter }) => {
         if (sortBy === 'name') {
           return ascending ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
         } else if (sortBy === 'currentUsers') {
-          return ascending ? a.currentUsers - b.currentUsers : b.currentUsers - a.currentUsers;
+          return ascending ? a.currentUsersCount - b.currentUsersCount : b.currentUsersCount - a.currentUsersCount;
         }
         return 0;
       });
@@ -92,12 +100,12 @@ const LobbyList = ({ filter }) => {
             <div className="lobby-details">
               <div className="lobby-header">
                 <h3 className="lobby-name" title={lobby.name}>{lobby.name}</h3>
-                <p className="lobby-users">{lobby.currentUsers}/{lobby.maxUsers} Users</p>
+                <p className="lobby-users">{lobby.currentUsersCount}/{lobby.maxUsers} Users</p>
                 <p className="lobby-status">{lobby.isLocked ? 'Locked' : 'Public'}</p>
               </div>
               <p className="lobby-description">{lobby.description}</p>
             </div>
-            <button className="lobby-join-btn">Join</button>
+            <button className="lobby-join-btn" onClick={() => handleJoinLobby(lobby.id)}>Join</button>
           </div>
         ))}
       </div>

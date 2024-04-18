@@ -1,9 +1,10 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase } from "firebase/database";
+import { getFirestore } from "firebase/firestore"
+import { getAuth, GoogleAuthProvider} from "firebase/auth";
 
-// Your web app's Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCNv4KHIXBNa5Cbw0s1_EpU2IsH2RsThPw",
   authDomain: "react-chat-11602.firebaseapp.com",
@@ -18,5 +19,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const database = getDatabase(app);
+const dbfirestore = getFirestore(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
-export { app, database };
+export { app, database, dbfirestore, auth, provider };

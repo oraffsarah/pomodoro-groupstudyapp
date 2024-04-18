@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
-import './CreateLobbyModal.css'; // You'll need to create corresponding CSS for this
+import './CreateLobbyModal.css';
+import useRoomManager from './rooms/useRoomManager';
 
-const CreateLobbyModal = ({ isVisible, onClose, onCreate }) => {
+const CreateLobbyModal = ({ isVisible, onClose }) => {
   const [lobbyName, setLobbyName] = useState('');
   const [maxUserCount, setMaxUserCount] = useState('');
   const [description, setDescription] = useState('');
   const [isPrivate, setIsPrivate] = useState(false);
+  const { createLobby } = useRoomManager(); // Use the createLobby function from the RoomManager hook
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onCreate({
+    const lobbyData = {
       name: lobbyName,
       maxUsers: parseInt(maxUserCount, 10),
       description,
-      isLocked: isPrivate
-    });
+      isLocked: isPrivate,
+    };
+
+    // Call createLobby instead of handling directly
+    const roomId = createLobby(lobbyData);
+    console.log('Lobby created successfully with ID:', roomId);
     onClose(); // Close modal on submission
   };
 

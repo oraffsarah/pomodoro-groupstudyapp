@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import image1 from "../../image/pic2.jpg";
 import image2 from "../../image/picWide.jpg";
-
 const backGrounds = [image1, image2];
 
 function App() {

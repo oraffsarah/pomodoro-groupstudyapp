@@ -1,20 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ChatModal.css';
+import { dbfirestore } from '../Firebase/firebase';
+import { collection, addDoc, query, orderBy, onSnapshot, deleteDoc, limit, doc, getDocs } from 'firebase/firestore';
+import { useUser } from './auth/UserContext';
 
-const ChatModal = ({ isVisible, onClose, friend, currentUser }) => {
+const ChatModal = ({ isVisible, onClose, friend }) => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
+    const { currentUser } = useUser(); // Access the currentUser from context
 
-    const handleSendMessage = () => {
-        if (!newMessage.trim() || !currentUser) return;
-        const messageToSend = {
-            sender: currentUser.uniqueId, // Assuming currentUser has a uniqueId property
-            text: newMessage,
-            sentAt: new Date().toISOString()
-        };
+    useEffect(() => {
+        console.log("Current user:", currentUser);
+        console.log("Friend:", friend);
 
-        setMessages([...messages, messageToSend]);
-        setNewMessage('');
+        if (!currentUser || !friend || !isVisible || !currentUser.uid || !friend.uid) {
+            console.error("Missing user details or modal is not visible.", { currentUser, friend });
+            return;
+        }
+
+        const chatId = currentUser.uid > friend.uid ? `${currentUser.uid}_${friend.uid}` : `${friend.uid}_${currentUser.uid}`;
+        console.log("Chat ID:", chatId);
+
+        const messagesRef = collection(dbfirestore, 'chats', chatId, 'messages');
+        const q = query(messagesRef, orderBy("sentAt", "asc"));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const messagesData = querySnapshot.docs.map(doc => ({
+                ...doc.data(),
+                id: doc.id,
+                sentAt: doc.data().sentAt.toDate()
+            }));
+            setMessages(messagesData);
+        });
+
+        return () => unsubscribe();
+    }, [friend, currentUser, isVisible]);
+
+    const handleSendMessage = async () => {
+        if (!newMessage.trim() || !currentUser || !friend) {
+            console.error("Invalid message or missing user details:", { newMessage, currentUser, friend });
+            return;
+        }
+
+        const chatId = currentUser.uid > friend.uid ? `${currentUser.uid}_${friend.uid}` : `${friend.uid}_${currentUser.uid}`;
+        const messagesRef = collection(dbfirestore, 'chats', chatId, 'messages');
+
+        try {
+            const messagesQuery = query(messagesRef, orderBy("sentAt", "asc"), limit(50));
+            const snapshot = await getDocs(messagesQuery);
+            if (snapshot.docs.length >= 50) {
+                await deleteDoc(doc(dbfirestore, 'chats', chatId, 'messages', snapshot.docs[0].id));
+            }
+
+            await addDoc(messagesRef, {
+                sender: currentUser.uid,
+                text: newMessage,
+                sentAt: new Date()
+            });
+            setNewMessage('');
+            console.log("Message sent successfully");
+        } catch (error) {
+            console.error("Failed to send message:", error);
+        }
     };
 
     if (!isVisible) return null;
@@ -22,13 +68,13 @@ const ChatModal = ({ isVisible, onClose, friend, currentUser }) => {
     return (
         <div className={`chat-modal ${isVisible ? 'visible' : ''}`}>
             <div className="chat-header">
-                <span>Chat with {friend.name}</span>
+                <span>Chat with {friend.name || friend.displayName}</span>
                 <button onClick={onClose}>Close</button>
             </div>
             <div className="messages-list">
-                {messages.map((message, index) => (
-                    <div key={index} className="message">
-                        <strong>{message.sender === currentUser.uniqueId ? 'Me' : friend.name}:</strong>
+                {messages.map((message) => (
+                    <div key={message.id} className="message">
+                        <strong>{message.sender === currentUser.uid ? 'Me' : friend.name || friend.displayName}:</strong>
                         <span className="message-content">{message.text}</span>
                         <span className="message-timestamp">{new Date(message.sentAt).toLocaleTimeString()}</span>
                     </div>
@@ -47,80 +93,3 @@ const ChatModal = ({ isVisible, onClose, friend, currentUser }) => {
 };
 
 export default ChatModal;
-
-
-
-/* Temp, possibly working For Firebase
-import React, { useState, useEffect } from 'react';
-import './ChatModal.css'; // Ensure you have this CSS file for styling
-import { database } from '../Firebase/firebase'; // Adjust the import path as needed
-import { collection, addDoc, query, orderBy, onSnapshot } from 'firebase/firestore';
-
-const ChatModal = ({ friend, onClose }) => {
-    const [message, setMessage] = useState('');
-    const [messages, setMessages] = useState([]);
-
-    // Assuming 'chats' collection exists in the Firestore
-    const messagesRef = collection(database, 'chats', friend.id, 'messages');
-
-    useEffect(() => {
-        const q = query(messagesRef, orderBy('createdAt'));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const msgs = querySnapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
-            setMessages(msgs);
-        });
-
-        return () => unsubscribe(); // Cleanup listener on unmount
-    }, [friend.id]);
-
-    const sendMessage = async () => {
-        if (message.trim() !== '') {
-            await addDoc(messagesRef, {
-                text: message,
-                createdAt: new Date(),
-                // Include other relevant fields such as senderId, receiverId
-            });
-            setMessage(''); // Clear the message input after sending
-        }
-    };
-
-    const handleInputChange = (e) => {
-        setMessage(e.target.value);
-    };
-
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            sendMessage();
-            e.preventDefault();
-        }
-    };
-
-    return (
-        <div className="chat-modal">
-            <div className="chat-header">
-                <h3>Chat with {friend.name}</h3>
-                <button onClick={onClose}>Close</button>
-            </div>
-            <ul className="messages-list">
-                {messages.map((msg) => (
-                    <li key={msg.id}>{msg.text}</li>
-                ))}
-            </ul>
-            <div className="message-input">
-                <textarea 
-                    value={message} 
-                    onChange={handleInputChange} 
-                    onKeyPress={handleKeyPress}
-                    placeholder="Type your message here..."
-                />
-                <button onClick={sendMessage}>Send</button>
-            </div>
-        </div>
-    );
-};
-
-export default ChatModal;
-*/
