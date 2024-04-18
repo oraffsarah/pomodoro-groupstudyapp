@@ -5,7 +5,6 @@ import { getFirestore, doc, setDoc, getDoc, query, collection, where, orderBy, g
 import { getAuth, onAuthStateChanged } from 'firebase/auth'; // 引入身份验证相关函数
 import 'bootstrap/dist/css/bootstrap.min.css'; // 确保导入了Bootstrap的CSS
 
-// Firebase 配置
 const firebaseConfig = {
     apiKey: "AIzaSyCNv4KHIXBNa5Cbw0s1_EpU2IsH2RsThPw",
     authDomain: "react-chat-11602.firebaseapp.com",
