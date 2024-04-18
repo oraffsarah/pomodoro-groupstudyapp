@@ -21,9 +21,13 @@ function App() {
   return (
  
 
- 
+  <Timer></Timer> 
 
-<AuthContextProvider>
+
+  );
+}
+      
+{/* <AuthContextProvider>
 <Routes> 
   <Route path='/' element={<Home/>}/>
   <Route path='/signin' element={<SignIn/>}/>
@@ -32,13 +36,11 @@ function App() {
 
  <SignIn/>
 
- </AuthContextProvider>
+ </AuthContextProvider> */}
 
-  );
-}
-      
- 
-{/* <Timer></Timer> */}
+
+
+
 //  <AuthContextProvider>
 //   </NavBar>
 //   <Routes> 
