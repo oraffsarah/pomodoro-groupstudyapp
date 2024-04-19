@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './components/dashboard/Dashboard';
-// import Home from './components/homepage/Homepage';
 import Login from './components/login/Login';
 import Navbar from './components/navbar/Navbar';
 import { UserProvider } from './components/auth/UserContext';
@@ -9,7 +8,6 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import Room from './components/rooms/Room';
 import { RoomManagerProvider } from './components/rooms/RoomManagerContext';
 import Timer from './components/Timer';
-import GoogleButton from 'react-google-button'
 
 const App = () => {
   return (
@@ -25,7 +23,7 @@ const App = () => {
             </ProtectedRoute>
           } />
           <Route path="/rooms/:roomId" element={
-            <RoomManagerProvider> {/* Ensure provider wraps the Room component */}
+            <RoomManagerProvider>
               <ProtectedRoute>
                 <Room />
               </ProtectedRoute>
