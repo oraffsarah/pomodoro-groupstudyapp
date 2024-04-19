@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import StatisticsPage from '../statisticsPage/StatisticsPage';
 
 const Home = () => {
   return (
