@@ -10,6 +10,7 @@ import FriendsList from '../FriendsList';
 import PersonalSidebar from '../PersonalSidebar';
 import CreateLobbyModal from '../CreateLobbyModal';
 import ChatModal from '../ChatModal';
+import StatisticPage from '../../statisticsPage/statisticsPage';
 
 const Dashboard = () => {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -89,6 +90,8 @@ const Dashboard = () => {
       <FriendsList isVisible={showFriendsList} onOpenChatModal={handleOpenChatModal} />
 
       <CreateLobbyModal isVisible={showCreateLobbyModal} onClose={closeCreateLobbyModal} onCreate={handleCreateLobby} />
+
+      <StatisticPage/>
 
       {isChatModalVisible && <ChatModal
   isVisible={isChatModalVisible}
