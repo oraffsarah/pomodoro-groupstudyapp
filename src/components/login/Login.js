@@ -5,7 +5,8 @@ import {
   signInWithRedirect,
   getRedirectResult,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  signInWithPopup
 } from 'firebase/auth';
 import { ref, set, get } from 'firebase/database';
 import { useUser } from '../auth/UserContext';
@@ -43,8 +44,9 @@ const Login = () => {
     });
   }, [navigate, setUser]);
 
-  const handleGoogleLogin = () => {
-    signInWithRedirect(auth, provider);
+  async function handleGoogleLogin() {
+    await signInWithPopup(auth, provider);
+    //handleRegistration();
   };
 
   const handleRegistration = async (event) => {
