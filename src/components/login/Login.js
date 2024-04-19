@@ -15,6 +15,7 @@ const Login = () => {
   const { currentUser, setUser } = useUser(); // Destructure correctly
   const navigate = useNavigate();
   const [isRegistering, setIsRegistering] = useState(false);
+  const [signInWithGoogle, setSignInWithGoogle] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
@@ -44,9 +45,10 @@ const Login = () => {
     });
   }, [navigate, setUser]);
 
-  async function handleGoogleLogin() {
+  const handleGoogleLogin = async() => {
     await signInWithPopup(auth, provider);
-    //handleRegistration();
+    setSignInWithGoogle(true);
+    setAwaitingUsername(true);
   };
 
   const handleRegistration = async (event) => {
@@ -128,7 +130,7 @@ const Login = () => {
 
   return (
     <div>
-      <h1>{isRegistering ? 'Register' : 'Login'}</h1>
+      {signInWithGoogle? <h1>Finalize Your Registration</h1> : <h1>{isRegistering ? 'Register' : 'Login'}</h1>}
       {awaitingUsername ? (
         <form onSubmit={handleUsernameAssignment}>
           <input
