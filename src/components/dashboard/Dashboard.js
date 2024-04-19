@@ -73,6 +73,7 @@ const Dashboard = () => {
 
       <div className="top-bar">
         <SearchBar onSearch={handleSearch} />
+        <button className="action-btn" onClick={() => console.warn('Join functionality not implemented')}>Statics</button>
         <button className="action-btn" onClick={() => console.warn('Join functionality not implemented')}>Join Lobby/Channel</button>
         <button className="action-btn" onClick={openCreateLobbyModal}>Create Lobby/Channel</button>
       </div>
