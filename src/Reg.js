@@ -9,10 +9,11 @@ import { addData } from './firestoreService';
 
 function Reg() {
     // const [user] = useAuthState(auth);
-    const [userName, setUserName] = useState(0);
+    const [data, setData] = useState(0);
 
     function onUserNameChange(event) {
         let data = {
+            userId: "aaaaaaaa",
             username: "test"
         }
         setUserName(event.target.value);
@@ -28,7 +29,7 @@ function Reg() {
     return (
         <section>
             User Name:
-            <input classonChange={onUserNameChange} type="text"/>
+            <input onChange={onUserNameChange} type="text"/>
             <button onClick={Submit} className='btn btn-secondary'>Submit</button>
         </section>
     )
