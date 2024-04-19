@@ -14,6 +14,7 @@ import ChatModal from '../ChatModal';
 const Dashboard = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showFriendsList, setShowFriendsList] = useState(false);
+  const [showStatistics, setShowStatistics] = useState(false);
   const [showCreateLobbyModal, setShowCreateLobbyModal] = useState(false);
   const [isChatModalVisible, setIsChatModalVisible] = useState(false);
   const [selectedFriendForChat, setSelectedFriendForChat] = useState(null);
