@@ -14,6 +14,7 @@ import ChatModal from '../ChatModal';
 const Dashboard = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showFriendsList, setShowFriendsList] = useState(false);
+  const [showStatistics, setShowStatistics] = useState(false);
   const [showCreateLobbyModal, setShowCreateLobbyModal] = useState(false);
   const [isChatModalVisible, setIsChatModalVisible] = useState(false);
   const [selectedFriendForChat, setSelectedFriendForChat] = useState(null);
@@ -73,6 +74,7 @@ const Dashboard = () => {
 
       <div className="top-bar">
         <SearchBar onSearch={handleSearch} />
+        <button className="action-btn" onClick={() => console.warn('Join functionality not implemented')}>Statistics</button>
         <button className="action-btn" onClick={() => console.warn('Join functionality not implemented')}>Join Lobby/Channel</button>
         <button className="action-btn" onClick={openCreateLobbyModal}>Create Lobby/Channel</button>
       </div>
