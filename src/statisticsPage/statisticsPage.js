@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import './StatisticsPage.css';
+import './statisticsPage.css';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, setDoc, getDoc, query, collection, where, orderBy, getDocs, addDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth'; // 引入身份验证相关函数
