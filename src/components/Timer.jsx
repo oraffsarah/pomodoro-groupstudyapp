@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import image1 from "../image/train.jpg"
-import image2 from "../image/wideLake.jpg"
-import image3 from "../image/wideLake2.jpg"
-import image4 from "../image/river.jpg"
-import image5 from "../image/297.jpg"
-import image6 from "../image/dock.jpg"
+import 'bootstrap/dist/css/bootstrap.css';
+import image1 from "../image/train.jpg";
+import image2 from "../image/wideLake.jpg";
+import image3 from "../image/wideLake2.jpg";
+import image4 from "../image/river.jpg";
+import image5 from "../image/297.jpg";
+import image6 from "../image/dock.jpg";
+
 
 const backGrounds = [image1, image2, image3, image4, image5, image6];
 
