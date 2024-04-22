@@ -9,7 +9,6 @@
 .hero{
   display: flex;
   height: 100vh;
-  /* background-image: url('./image/pic2.jpg'); */
   background-size:cover;
   box-shadow: inset 0 0 0 2000px rgba(0,0, 0, 0.1);
 }
@@ -50,7 +49,20 @@
   padding:12px 24px;
   font-size: 22px;
   border-radius: 10px;
+  text-align: center;
 
+}
 
+/* input, button{
+  padding:10px;
+  width:120px;
+} */
 
+.hoverArea{
+  padding: 90px;
+}
+
+.themeDiv{
+  padding: 20px;
+  text-align: center;
 }

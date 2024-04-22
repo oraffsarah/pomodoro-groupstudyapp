@@ -1,55 +1,38 @@
-import React, { useState, useRef } from "react";
-import "./styles/App.css";
-import { Auth } from "./components/Auth";
-import { signOut } from 'firebase/auth';
-import{ auth } from './firebase-config';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Dashboard from './components/dashboard/Dashboard';
+import Login from './components/login/Login';
+import Navbar from './components/navbar/Navbar';
+import { UserProvider } from './components/auth/UserContext';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import Room from './components/rooms/Room';
+import { RoomManagerProvider } from './components/rooms/RoomManagerContext';
+import Timer from './components/Timer';
 
-import { GroupStudy } from "./components/GroupStudy";
-
-import Cookies from 'universal-cookie';
-const cookies = new Cookies()
-
-function App () {
-  const [isAuth, setIsAuth] = useState(cookies.get("auth-token"));
-  const [room, setRoom] = useState(null);
-
-  const roomInputRef = useRef(null);
-
-  const signUserOut = async () => {
-    await signOut(auth);
-    cookies.remove("auth-token");
-    setIsAuth(false);
-    setRoom(null);
-  };
-
-  if (!isAuth) {
+const App = () => {
   return (
-    <div>
-      <Auth setIsAuth={setIsAuth}/>
-    </div>
+    <UserProvider>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Timer />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/rooms/:roomId" element={
+            <RoomManagerProvider>
+              <ProtectedRoute>
+                <Room />
+              </ProtectedRoute>
+            </RoomManagerProvider>
+          } />
+        </Routes>
+      </Router>
+    </UserProvider>
   );
-  }
-
-  return (
-    <>
-      {room ? (
-        <div>
-          {/* <Chat room={room}/> */}
-          <GroupStudy room={room}/>
-        </div>
-      ) : (
-        <div className="room">
-          <label>Enter Room ID</label>
-          <input ref={roomInputRef}/>
-          <button onClick={() => setRoom(roomInputRef.current.value)}> Enter Chat </button>
-        </div>
-      )}
-
-      {/* <div className="sing-out">
-        <button onClick={signUserOut}> Sign Out </button>
-      </div> */}
-    </>
-  );
-}
+};
 
 export default App;
