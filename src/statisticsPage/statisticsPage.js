@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import './statisticsPage.css';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, setDoc, getDoc, query, collection, where, orderBy, getDocs, addDoc  } from 'firebase/firestore';
-import { auth, provider, database } from '../../Firebase/firebase';
+import { auth, provider, database } from '../Firebase/firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth'; // 引入身份验证相关函数
 
 // Firebase 配置
@@ -20,7 +20,7 @@ const firebaseConfig = {
 // 初始化 Firebase 应用
 //initializeApp(firebaseConfig);
 //const db = getFirestore();
-
+const db = 0;
 function StatisticPage() {
     const [todayHours, setTodayHours] = useState('');
     const [periodHours, setPeriodHours] = useState(null);
