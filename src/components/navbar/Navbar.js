@@ -30,6 +30,7 @@ const Navbar = () => {
         {currentUser ? (
           <>
             <Link to="/dashboard" className="navbar-link">Dashboard</Link>
+            <Link to="/statistics" className="navbar-link">Statistics</Link>
             <div className="user-info">
               <span className="user-name">{currentUser.name}</span> {/* Show username retrieved from context */}
               <button className="navbar-button" onClick={handleLogout}>Logout</button>

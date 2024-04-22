@@ -5,22 +5,21 @@ import { getFirestore, doc, setDoc, getDoc, query, collection, where, orderBy, g
 import { auth, provider, database } from '../Firebase/firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth'; // 引入身份验证相关函数
 
-// Firebase 配置
-/*
-const firebaseConfig = {
-    apiKey: "AIzaSyCNv4KHIXBNa5Cbw0s1_EpU2IsH2RsThPw",
-    authDomain: "react-chat-11602.firebaseapp.com",
-    databaseURL: "https://react-chat-11602-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "react-chat-11602",
-    storageBucket: "react-chat-11602.appspot.com",
-    messagingSenderId: "219582341541",
-    appId: "1:219582341541:web:24f5da00e7aefaf0d3084c"
-};
-*/
+//Firebase 配置
+
+// const firebaseConfig = {
+//     apiKey: "AIzaSyCNv4KHIXBNa5Cbw0s1_EpU2IsH2RsThPw",
+//     authDomain: "react-chat-11602.firebaseapp.com",
+//     databaseURL: "https://react-chat-11602-default-rtdb.europe-west1.firebasedatabase.app",
+//     projectId: "react-chat-11602",
+//     storageBucket: "react-chat-11602.appspot.com",
+//     messagingSenderId: "219582341541",
+//     appId: "1:219582341541:web:24f5da00e7aefaf0d3084c"
+// };
 // 初始化 Firebase 应用
-//initializeApp(firebaseConfig);
-//const db = getFirestore();
-const db = 0;
+// initializeApp(firebaseConfig);
+const db = getFirestore();
+// const db = 0;
 function StatisticPage() {
     const [todayHours, setTodayHours] = useState('');
     const [periodHours, setPeriodHours] = useState(null);
