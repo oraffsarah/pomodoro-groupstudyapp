@@ -4,29 +4,28 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, setDoc, getDoc, query, collection, where, orderBy, getDocs, addDoc  } from 'firebase/firestore';
 import { auth, provider, database } from '../Firebase/firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth'; // 引入身份验证相关函数
+import 'bootstrap/dist/css/bootstrap.min.css'; // 确保导入了Bootstrap的CSS
 
-//Firebase 配置
+const firebaseConfig = {
+    apiKey: "AIzaSyCNv4KHIXBNa5Cbw0s1_EpU2IsH2RsThPw",
+    authDomain: "react-chat-11602.firebaseapp.com",
+    databaseURL: "https://react-chat-11602-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "react-chat-11602",
+    storageBucket: "react-chat-11602.appspot.com",
+    messagingSenderId: "219582341541",
+    appId: "1:219582341541:web:24f5da00e7aefaf0d3084c"
+};
 
-// const firebaseConfig = {
-//     apiKey: "AIzaSyCNv4KHIXBNa5Cbw0s1_EpU2IsH2RsThPw",
-//     authDomain: "react-chat-11602.firebaseapp.com",
-//     databaseURL: "https://react-chat-11602-default-rtdb.europe-west1.firebasedatabase.app",
-//     projectId: "react-chat-11602",
-//     storageBucket: "react-chat-11602.appspot.com",
-//     messagingSenderId: "219582341541",
-//     appId: "1:219582341541:web:24f5da00e7aefaf0d3084c"
-// };
 // 初始化 Firebase 应用
 // initializeApp(firebaseConfig);
 const db = getFirestore();
 // const db = 0;
 function StatisticPage() {
     const [todayHours, setTodayHours] = useState('');
-    const [periodHours, setPeriodHours] = useState(null);
-    const [periodText, setPeriodText] = useState('');
     const [rankings, setRankings] = useState([]);
-    const [userId, setUserId] = useState(null); // 使用状态来存储用户 ID
-    const [userAvatar, setUserAvatar] = useState(null); 
+    const [userId, setUserId] = useState(null);
+    const [userAvatar, setUserAvatar] = useState(null);
+    const [isToggleActive, setIsToggleActive] = useState(false);
 
     // 获取今天的日期
     function getTodayDate() {
@@ -40,23 +39,45 @@ function StatisticPage() {
     // 提交数据到 Firebase
     async function submitData() {
         const hoursInput = document.getElementById('hours');
-        const hours = parseInt(hoursInput.value, 10); // 解析为整数
+        const minutesInput = document.getElementById('minutes');
+        const secondsInput = document.getElementById('seconds');
 
-        if (hours) {
-            const todayDate = getTodayDate(); // 获取当前日期
-            const docId = `${userId}_${todayDate}`; // 生成文档名称
+        const hours = parseInt(hoursInput.value, 10);
+        const minutes = parseInt(minutesInput.value, 10) || 0;
+        const seconds = parseInt(secondsInput.value, 10) || 0;
+
+        // Convert total time to hours as a decimal
+        const totalHours = hours + (minutes / 60) + (seconds / 3600);
+
+        if (!isNaN(totalHours) && totalHours > 0) {
+            const todayDate = getTodayDate();
+            const docId = `${userId}_${todayDate}`;
             const docData = {
                 userId: userId,
-                hours: hours,
+                hours: totalHours.toFixed(2),
                 date: todayDate
             };
-
-            // 使用 setDoc 方法创建新的文档或更新现有文档
+    
             await setDoc(doc(db, 'studyData', docId), docData);
-
-            hoursInput.value = ''; // 清空输入
-            fetchTodayHours(); // 重新获取今天的学习时长
-            fetchRankings(); // 更新排名
+    
+            // Update study dates array
+            const userRef = doc(db, 'users', userId);
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+                const userDates = userSnap.data().studyDates || [];
+                if (!userDates.includes(todayDate)) {
+                    await setDoc(userRef, {
+                        studyDates: [...userDates, todayDate]
+                    }, { merge: true });
+                }
+            }
+    
+            // Clear input and refetch data
+            hoursInput.value = '';
+            minutesInput.value = '';
+            secondsInput.value = '';
+            fetchTodayHours();
+            fetchRankings();
         }
     }
 
@@ -88,49 +109,64 @@ function StatisticPage() {
             const userData = docSnapshot.data();
             const userRef = doc(db, 'users', userData.userId);
             const userDoc = await getDoc(userRef);
-    
+            
+            // 检查用户是否选择隐藏他们的排名
+            if (userDoc.exists() && userDoc.data().hideFromRankings) {
+                return null; // 用户选择隐藏排名时，返回null
+            }
+            
             return {
                 ...userData,
                 id: docSnapshot.id,
-                username: userDoc.exists() ? userDoc.data().username : "Anonymous", // 获取用户名
-                avatarUrl: userDoc.exists() ? userDoc.data().avatarUrl : './logo512.png' // 使用用户自己的头像，如果没有则用默认头像
+                username: userDoc.exists() ? userDoc.data().username : "Anonymous",
+                avatarUrl: userDoc.exists() ? userDoc.data().avatarUrl : './logo512.png'
             };
         });
     
-        const rankingData = await Promise.all(rankingDataPromises);
+        const rankingData = (await Promise.all(rankingDataPromises)).filter(Boolean); // 移除所有null项
         setRankings(rankingData);
     }, [db]);
     
     
     
     
+    // 处理滑动开关的函数
+    const toggleSwitch = async () => {
+        const newIsToggleActive = !isToggleActive;
+        setIsToggleActive(newIsToggleActive); // 改变状态
 
-    // 获取指定周期内的学习时长，并累加
-    const fetchPeriodHours = async (period) => {
-        const endDate = new Date();
-        const startDate = new Date();
-        startDate.setDate(endDate.getDate() - period); // 从今天开始往前推 period 天
+        // 更新数据库中的用户设置
+        if (userId) { // 确保 userId 不是 null 或 undefined
+            const userRef = doc(db, 'users', userId);
+            await setDoc(userRef, { hideFromRankings: newIsToggleActive }, { merge: true });
+        }
 
-        const formattedStartDate = startDate.toISOString().slice(0, 10);
-        const formattedEndDate = endDate.toISOString().slice(0, 10);
-
-        const periodQuery = query(
-            collection(db, 'studyData'),
-            where('userId', '==', userId),
-            where('date', '>=', formattedStartDate),
-            where('date', '<=', formattedEndDate),
-            orderBy('date', 'asc')
-        );
-
-        const querySnapshot = await getDocs(periodQuery);
-        let totalHours = 0;
-        querySnapshot.forEach(doc => {
-            totalHours += doc.data().hours;
-        });
-
-        setPeriodHours(totalHours); // 设置指定周期内的总学习时长
-        setPeriodText(`You have studied a total of ${totalHours} hours in the past ${period} days.`);
+        // 立即重新获取排名
+        fetchRankings();
     };
+
+    // 滑动开关的JSX
+    // ToggleSwitch 组件
+    const ToggleSwitch = () => (
+        <div className="form-check form-switch" onClick={toggleSwitch}>
+            <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="customSwitch1"
+                checked={isToggleActive}
+                onChange={toggleSwitch}
+                disabled={userId ? false : true}  // 确保用户登录后才能使用开关
+            />
+            <label className="form-check-label" htmlFor="customSwitch1">
+                {isToggleActive ? 'You have exited the ranking' : 'Click to exit ranking'}
+            </label>
+        </div>
+    );
+
+// 使用该组件
+<ToggleSwitch />
+
 
     // 初始加载时获取今天的学习时长
     useEffect(() => {
@@ -146,26 +182,35 @@ function StatisticPage() {
                 // 用户已登录
                 setUserId(user.uid); // 将用户的 UID 设置为 userId
                 setUserAvatar(user.photoURL); // 设置用户头像 URL
-                console.log("User Name: ", user.displayName); // 打印用户的显示名称
-                console.log("User Email: ", user.email); // 打印用户的邮箱地址
     
-                // 检查并更新用户数据
+                // 获取用户数据
                 const userRef = doc(db, 'users', user.uid);
-                await setDoc(userRef, {
-                    userId: user.uid,
-                    avatarUrl: user.photoURL,
-                    username: user.displayName, // 存储用户名
-                    email: user.email // 存储用户邮箱
-                }, { merge: true }); // 使用 merge 选项确保不会覆盖其他用户数据
+                const userSnap = await getDoc(userRef);
+                if (userSnap.exists()) {
+                    // 读取用户是否隐藏排名的设置
+                    const hideFromRankings = userSnap.data().hideFromRankings || false;
+                    setIsToggleActive(hideFromRankings); // 设置隐藏排名的状态
+    
+                    // 存储用户信息
+                    await setDoc(userRef, {
+                        userId: user.uid,
+                        avatarUrl: user.photoURL,
+                        username: user.displayName,
+                        email: user.email,
+                        hideFromRankings // 确保持久化
+                    }, { merge: true });
+                }
             } else {
                 // 用户未登录
                 setUserId(null);
-                setUserAvatar(null); // 清空用户头像 URL
+                setUserAvatar(null);
+                setIsToggleActive(false); // 重置隐藏排名状态
             }
         });
     
         return () => unsubscribe();
-    }, []);
+    }, [db]);
+    
     
     useEffect(() => {
         const updateUserProfile = async () => {
@@ -182,7 +227,38 @@ function StatisticPage() {
         updateUserProfile();
     }, []);
     
+    function calculateStreak(dates) {
+        if (!dates || dates.length === 0) return 0;
     
+        let streak = 0;
+        let currentDate = new Date();
+        currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+    
+        while (dates.includes(currentDate.toISOString().slice(0, 10))) {
+            streak++;
+            currentDate.setDate(currentDate.getDate() - 1);
+        }
+    
+        return streak;
+    }
+    
+    const [streak, setStreak] = useState(0);
+
+    useEffect(() => {
+        async function fetchStreak() {
+            const userRef = doc(db, 'users', userId);
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+                const studyDates = userSnap.data().studyDates || [];
+                setStreak(calculateStreak(studyDates));
+            }
+        }
+
+        if (userId) {
+            fetchStreak();
+        }
+    }, [userId, db]);
+
 
 
     return (
@@ -190,23 +266,24 @@ function StatisticPage() {
             <h3 className="mb-4">{getTodayDate()}</h3>
             <h1 className="mb-4">Study Time Statistics</h1>
             <div className="mb-3">
-                <input type="number" id="hours" className="form-control d-inline-block w-auto mr-2" placeholder="Enter study hours" />
+            <input type="number" id="hours" className="form-control d-inline-block w-auto mr-2" placeholder="Enter study hours" />
+                <input type="number" id="minutes" className="form-control d-inline-block w-auto mr-2" placeholder="Enter study minutes" />
+                <input type="number" id="seconds" className="form-control d-inline-block w-auto mr-2" placeholder="Enter study seconds" />
                 <button onClick={submitData} className="btn btn-primary">Submit</button>
-            </div>
-            <div className="mb-3">
-                <button onClick={() => fetchPeriodHours(7)} className="btn btn-secondary mr-2">7 Days</button>
-                <button onClick={() => fetchPeriodHours(30)} className="btn btn-secondary mr-2">30 Days</button>
             </div>
             <div id="dataDisplay" className="mb-3">
                 {todayHours ? `Today you have studied ${todayHours} hours.` : 'Loading data...'}
             </div>
-            {periodHours !== null && (
-                <div className="mb-3">
-                    {periodText}
-                </div>
-            )}
+            <div className="streak-display">
+                <h4>
+                You have studied for {streak + 1} {streak + 1 === 1 ? 'consecutive day! 🔥' : 'consecutive days! 🔥'}
+                </h4>
+            </div>
             <div id="rankingDisplay">
-                <h2>Today's Rankings</h2>
+                <div className="rankingTitle">
+                    <h2 >Today's Rankings</h2>
+                    <b><ToggleSwitch /> </b>{/* 放置你希望出现滑动开关的位置 */}
+                </div>
                 {rankings.length > 0 ? (
                     <ol>
                         {rankings.map((user, index) => (
