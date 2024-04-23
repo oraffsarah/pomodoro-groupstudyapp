@@ -73,17 +73,17 @@ const PomodoroTimer = () => {
                     //depending on if isRunning is true
                 }
                <div className="d-flex justify-content-center align-items-center mb-3">
-            <button className={`btn ${isRunning ? ' btn btn-outline-danger' : 'btn btn-success'} me-2 `} onClick={handleStartStop}>
+            <button className={`btn ${isRunning ? ' btn btn-outline-danger' : 'btn btn-outline-success'} me-2 `} onClick={handleStartStop}>
                 {isRunning ? 'Stop' : 'Start'}
             </button>
 
 
-            {isRunning && <button className='btn btn-secondary me-2 ' onClick={handlePause}>
+            {isRunning && <button className='btn btn-outline-secondary me-2 ' onClick={handlePause}>
                 Pause
                 </button>}
 
 
-            <button className='btn btn-info ' onClick={handleReset}>
+            <button className='btn btn-outline-info ' onClick={handleReset}>
                 Reset
                 </button>
             <div>
