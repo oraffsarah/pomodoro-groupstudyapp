@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.css';
+
 
 const PomodoroTimer = () => {
     const [isRunning, setIsRunning] = useState(false);
@@ -50,33 +53,75 @@ const PomodoroTimer = () => {
     };
 
     return (
-        <div>
-            <h2>{sessionType.charAt(0).toUpperCase() + sessionType.slice(1)} Session</h2>
-            <p>{formatTime(timeLeft)}</p>
-            <button onClick={handleStartStop}>{isRunning ? 'Stop' : 'Start'}</button>
-            {isRunning && <button onClick={handlePause}>Pause</button>}
-            <button onClick={handleReset}>Reset</button>
+        <div className='container text-center'>
+
+                {
+                    //emphasises the heading, if you dont like the colours just chnage/remove them, it chaages color depending on break or study
+                }
+
+                <h2 className={`display-4 ${sessionType === 'focus' ? 'text-success' : 'text-warning'}`}> 
+            {sessionType.charAt(0).toUpperCase() + sessionType.slice(1)} Session
+        </h2>
+
+
+            <p className='lead fs-1'>{formatTime(timeLeft)}</p>
+
+            
+        
+                {
+                    //The colour of the start/stop button changes
+                    //depending on if isRunning is true
+                }
+               <div className="d-flex justify-content-center align-items-center mb-3">
+            <button className={`btn ${isRunning ? ' btn btn-outline-danger' : 'btn btn-success'} me-2 `} onClick={handleStartStop}>
+                {isRunning ? 'Stop' : 'Start'}
+            </button>
+
+
+            {isRunning && <button className='btn btn-secondary me-2 ' onClick={handlePause}>
+                Pause
+                </button>}
+
+
+            <button className='btn btn-info ' onClick={handleReset}>
+                Reset
+                </button>
             <div>
-                <label>
+                </div>
+                </div>
+            
+               
+
+                <div className='mt-5'>
+                    <div className='mt-5'>
+                <label className='form-label'>
                     Focus Interval (mins):
                     <input
+                         className="form-control mb-3"
                         type="number"
                         value={focusInterval / 60}
                         onChange={(e) => setFocusInterval(e.target.value * 60)}
                         min="1"
                     />
                 </label>
+                </div>
+
+                <div>
                 <label>
                     Break Interval (mins):
                     <input
+                    className="form-control mb-3"
                         type="number"
                         value={breakInterval / 60}
                         onChange={(e) => setBreakInterval(e.target.value * 60)}
                         min="1"
                     />
                 </label>
+                </div>
             </div>
-        </div>
+            </div>
+        
+        
     );
 };
 

@@ -90,7 +90,7 @@ const PersonalNotes = () => {
                style={{backgroundColor: note.color}}
                onClick={() => selectNote(note.id)}>
             Note {index + 1}
-            <button onClick={() => handleDeleteNote(note.id)}>Delete</button>
+            <button className='btn btn-danger btn-small' onClick={() => handleDeleteNote(note.id)}>Delete</button>
           </div>
         ))}
       </div>
