@@ -30,7 +30,7 @@ const [isFavLobbiesVisible,setIsFavLobbiesVisible] = useState(false);
 
       <div className="mb-5">
         <button className='btn btn-info btn-lg' onClick={ () => setIsFavLobbiesVisible(!isFavLobbiesVisible)}>Favorited Lobbies</button>
-        {isFavLobbiesVisible && <p>Fav Lobbies goes here i would assume</p>}
+        {isFavLobbiesVisible && <p>Fav Lobbies goes here i would assume,Test</p>}
 
       </div>  
 

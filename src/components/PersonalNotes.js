@@ -81,8 +81,8 @@ const PersonalNotes = () => {
   }
 
   return (
-    <div className="personal-notes">
-      <button onClick={createNewNote} disabled={notes.length >= 5}>Create New Note</button>
+    <div className="mb-3">
+      <button className='btn btn-secondary btn-lg mt-5 mb-3' onClick={createNewNote} disabled={notes.length >= 5}>Create New Note</button>
       <div className="notes-tabs">
         {notes.map((note, index) => (
           <div key={note.id} 

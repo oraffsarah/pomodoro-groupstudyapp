@@ -65,7 +65,7 @@ export const Notes = () => {
 
     return (
         <div className="personal-notes">
-        <button onClick={createNewNote}>Create New Note</button>
+        <button className="btn btn-secondary mb-3" onClick={createNewNote}>Create New Note</button>
         <div className="notes-tabs">
             {notes.map((note) => (
             <div key={note.id} 
