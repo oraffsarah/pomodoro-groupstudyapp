@@ -11,7 +11,9 @@ const FriendsList = ({ isVisible, onOpenChatModal }) => {
     const [searchResults, setSearchResults] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
     const [friendRequests, setFriendRequests] = useState([]);
-
+    const [isRequestVisible, setIsRequestVisible] = useState(false);
+    const [isFindFriendsVisible, setIsFindFriendsVisible] = useState(false);
+    const [isFriendsListVisible,setFriendsListVisible] = useState(false);
     // Fetch all usernames once and store them
     useEffect(() => {
         const usernamesRef = ref(database, 'usernames');
@@ -114,9 +116,16 @@ const FriendsList = ({ isVisible, onOpenChatModal }) => {
     };
 
     return (
+        
         <div className={`friends-list ${isVisible ? 'visible' : ''}`}>
-            <h3>Friends</h3>
+            <h2 display-4>Friends</h2>
+            <button className="btn btn-info btn-lg mb-3 mt-3" onClick={() => setIsFindFriendsVisible(!isFindFriendsVisible)}>
+            Friends List
+        </button>
+        {isFindFriendsVisible && (
+            <>
             <input
+            className='form-control'
                 type="text"
                 placeholder="Search existing friends"
                 value={searchTermExisting}
@@ -130,17 +139,40 @@ const FriendsList = ({ isVisible, onOpenChatModal }) => {
                         <button onClick={() => handleRemoveFriend(friend.uid)}>R</button>
                     </div>
                 ))}
+            
+
             </div>
-            <h3>Friend Requests</h3>
+            </>
+        )}
+
+            {/* friend request section, by clicking button you bring dropdown of friend requests */}
+            <button className="btn btn-info btn-lg mb-3 mt-3" onClick={() => setIsRequestVisible(!isRequestVisible)}>
+            Friend Requests
+        </button>
+
+            {isRequestVisible && (
+                <>
+                <p>Test, Friend requests here</p>
             {friendRequests.map((request) => (
                 <div key={request.uid} className="friend-request">
                     {request.name}
                     <button onClick={() => handleAcceptFriendRequest(request)}>Accept</button>
                     <button onClick={() => handleRejectFriendRequest(request.uid)}>Reject</button>
+                    
                 </div>
             ))}
-            <h3>Find New Friends</h3>
+            </>
+        )}
+
+
+<button className="btn btn-info btn-lg mb-3 mt-3" onClick={() => setIsFindFriendsVisible(!isFindFriendsVisible)}>
+            Find New Friends
+        </button>
+        
+        {isFindFriendsVisible && (
+            <>
             <input
+            className='form-control'
                 type="text"
                 placeholder="Search new friends"
                 value={searchTermNew}
@@ -154,6 +186,10 @@ const FriendsList = ({ isVisible, onOpenChatModal }) => {
                     </li>
                 ))}
             </ul>
+            </>
+    )}
+
+
         </div>
     );
 };
