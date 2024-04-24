@@ -78,7 +78,14 @@ function Timer() {
     let interval = null;
     if (timerOn) {
       interval = setInterval(() => {
-        setTime(prevTime => prevTime - 10);
+          setTime(prevTime => {
+              if (prevTime <= 0) { // Check if time has reached zero or below
+                  clearInterval(interval); // Stop the interval
+                  setTimeOn(false); // Stop the timer
+                  return 0; // Set time explicitly to zero
+              }
+              return prevTime - 10;
+          });
       }, 10);
     } else {
       clearInterval(interval);

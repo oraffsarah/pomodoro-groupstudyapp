@@ -173,7 +173,7 @@ const Login = () => {
                   placeholder="Password"
                   required
                 />
-                <button type="submit">Register</button>
+                <button type="submit" className='btn btn-secondary'>Register</button>
               </>
             )}
             {!isRegistering && (
