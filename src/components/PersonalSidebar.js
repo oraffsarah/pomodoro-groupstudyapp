@@ -13,7 +13,7 @@ const [isFavLobbiesVisible,setIsFavLobbiesVisible] = useState(false);
   return (
     <div className={`personal-sidebar ${isVisible ? 'visible' : ''}`}>
 
-      <h2 className='display-4 mb-5'>Study Tools</h2>
+      <h2 className='display-4 mb-5 justify-content-center'>Study Tools</h2>
 
       
       <button className="btn btn-info btn-lg" onClick={() => setIsTimerVisible(!isTimerVisible)}>

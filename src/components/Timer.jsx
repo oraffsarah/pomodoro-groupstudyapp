@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import image1 from "../image/train.jpg";
+
 import image2 from "../image/wideLake.jpg";
 import image3 from "../image/wideLake2.jpg";
 import image4 from "../image/river.jpg";
@@ -9,7 +9,7 @@ import image5 from "../image/297.jpg";
 import image6 from "../image/dock.jpg";
 
 
-const backGrounds = [image1, image2, image3, image4, image5, image6];
+const backGrounds = [ image2, image3, image4, image5, image6];
 
 function Timer() {
   const [currentBackground, setCurrentBackground] = useState(0);
@@ -57,8 +57,10 @@ function Timer() {
 
   return (
     <section className="hero" style={{ backgroundImage: `url(${backGrounds[currentBackground]})` }}>
+
       <div className="content">
-        <h1 className="h1">
+      
+        <h1 className="display-4 mb-3">
           {("0" + Math.floor((time / 60000) % 60)).slice(-2)}:
           {("0" + Math.floor((time / 1000) % 60)).slice(-2)}
         </h1>
@@ -69,11 +71,12 @@ function Timer() {
         >
           {isHovering && !timerOn && (
             <>
-              <button className="btn btn-primary" onClick={changeBackground}>Change Theme</button>
-              <button className="btn btn-primary me-5" onClick={() => setTimeOn(true)}>Start</button>
-              <button className="btn btn-primary" onClick={() => setTime(0)}>Reset</button>
-              <input type="number" className="form-control" onChange={handleMinuteChange} placeholder='Minutes' />
-              <input type="number" className="form-control" onChange={handleSecondsChange} placeholder='Seconds' />
+              
+              <button className="btn btn-primary me-5 mb-3" onClick={() => setTimeOn(true)}>Start</button>
+              <button className="btn btn-primary mb-3" onClick={() => setTime(0)}>Reset</button>
+              <input type="number" className="form-control mb-3" onChange={handleMinuteChange} placeholder='Minutes' />
+              <input type="number" className="form-control mb-3" onChange={handleSecondsChange} placeholder='Seconds' />
+              <button className="btn btn-success btn-lg mb-3" onClick={changeBackground}>Change Theme</button>
             </>
           )}
           {isHovering && timerOn && (

@@ -59,7 +59,7 @@ const PomodoroTimer = () => {
                     //emphasises the heading, if you dont like the colours just chnage/remove them, it chaages color depending on break or study
                 }
 
-                <h2 className={`display-4 ${sessionType === 'focus' ? 'text-success' : 'text-warning'}`}> 
+                <h2 className={`display-4 mb-3 mt-3 ${sessionType === 'focus' ? 'text-success' : 'text-warning'}`}> 
             {sessionType.charAt(0).toUpperCase() + sessionType.slice(1)} Session
         </h2>
 
@@ -73,7 +73,7 @@ const PomodoroTimer = () => {
                     //depending on if isRunning is true
                 }
                <div className="d-flex justify-content-center align-items-center mb-3">
-            <button className={`btn ${isRunning ? ' btn btn-outline-danger' : 'btn btn-outline-success'} me-2 `} onClick={handleStartStop}>
+            <button className={`btn ${isRunning ? ' btn btn-outline-danger' : 'btn btn-outline-success'} me-2  mt-3 mb-3`} onClick={handleStartStop}>
                 {isRunning ? 'Stop' : 'Start'}
             </button>
 
