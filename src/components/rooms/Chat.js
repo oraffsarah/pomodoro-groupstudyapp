@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { addDoc, collection, serverTimestamp, onSnapshot, query, where, orderBy } from 'firebase/firestore';
-import { auth, db } from '../firebase-config.js';
-import '../styles/Chat.css';
+import { auth, dbfirestore } from '../../Firebase/firebase.js';
+// import '../styles/Chat.css';
 
 export const Chat = (props) => {
     const { room } = props;
     const [newMessage, setNewMessage] = useState("");
     const [messages, setMessages] = useState([]);
 
-    const messagesRef = collection(db, "messages-test");
+    const messagesRef = collection(dbfirestore, "messages-test");
 
     useEffect(() => {
         const queryMessages = query(messagesRef, where("room", "==", room), orderBy("createdAt"));
@@ -40,7 +40,7 @@ export const Chat = (props) => {
 
     return (
         <div className="chat-app">
-            <div className="header"><h1>Welcome to: {room}</h1></div>
+            {/* <div className="header"><h1>Welcome to: {room}</h1></div> */}
             <div className="messages"> {messages.map((message) => 
                 <div>
                     <span className="user"><b>{message.user}</b></span> { }

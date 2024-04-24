@@ -70,12 +70,17 @@ const useRoomManager = () => {
 
   const createLobby = useCallback(({ name, maxUsers, description, isPrivate }) => {
     const roomId = generateRoomId();
+    const content = "";
+    const notes = {content};
+    const timer = {};
     const lobbyData = {
       name,
       maxUsers,
       description,
       isLocked: isPrivate,
-      roomId
+      roomId,
+      notes,
+      timer
     };
 
     const db = getDatabase();

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { ref, onValue, getDatabase } from 'firebase/database';
 import { useRoomManagerContext } from './RoomManagerContext';
+import { GroupStudy } from './GroupStudy';
 // import {GroupStudy} from '../GroupStudy';
 
 const Room = () => {
@@ -49,6 +50,7 @@ const Room = () => {
                 <p>No users currently in this room.</p>
             )}
             </ul>
+            <GroupStudy room={roomId}/>
             <button onClick={handleLeaveRoom}>Leave Lobby</button>
         </div>
     );
