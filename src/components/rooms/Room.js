@@ -13,24 +13,24 @@ const Room = () => {
     useEffect(() => {
         const db = getDatabase();
         const roomRef = ref(db, `lobbies/${roomId}`);
-
+      
         console.log("Subscribing to room:", roomId);
         const unsubscribe = onValue(roomRef, (snapshot) => {
-            const roomData = snapshot.val();
-            if (roomData) {
-                setRoomName(roomData.name);
-                setCurrentUsers(Object.values(roomData.currentUsers || {}));
-            } else {
-                setRoomName('Room not found');
-                setCurrentUsers([]);
-            }
+          const roomData = snapshot.val();
+          if (roomData) {
+            setRoomName(roomData.name);
+            setCurrentUsers(Object.values(roomData.currentUsers || {}));
+          } else {
+            setRoomName('Room not found');
+            setCurrentUsers([]);
+          }
         });
-
+      
         return () => {
-            console.log("Cleaning up subscriptions for room:", roomId);
-            unsubscribe();
+          console.log("Cleaning up subscriptions for room:", roomId);
+          unsubscribe();
         };
-    }, [roomId]);
+      }, [roomId]);      
 
     // Function to manually leave the room
     const handleLeaveRoom = () => {

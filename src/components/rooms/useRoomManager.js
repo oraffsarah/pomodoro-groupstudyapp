@@ -40,7 +40,7 @@ const useRoomManager = () => {
     }
     console.log(`Attempting to remove user from room: ${roomId}`);
     const db = getDatabase();
-    const roomUserRef = ref(db, `lobbies/${roomId}/currentUsers/`);
+    const roomUserRef = ref(db, `lobbies/${roomId}/currentUsers/${currentUser.uid}`);
   
     remove(roomUserRef)
       .then(() => {
@@ -68,15 +68,20 @@ const useRoomManager = () => {
     };
   }, [currentUser, removeUserFromRoom]);
 
-  const createLobby = useCallback(({ name, maxUsers, description, isPrivate }) => {
+  const createLobby = useCallback(async ({ name, maxUsers, description, isLocked, password }) => {
     const roomId = generateRoomId();
     const lobbyData = {
       name,
       maxUsers,
       description,
-      isLocked: isPrivate,
+      isLocked,
       roomId
     };
+
+    // Include the password in the lobby data if the lobby is locked
+    if (isLocked) {
+      lobbyData.password = password;  // Ensure the password is added here
+    }
 
     const db = getDatabase();
     const lobbyRef = ref(db, `lobbies/${roomId}`);

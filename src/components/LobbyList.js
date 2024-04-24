@@ -16,7 +16,6 @@ const LobbyList = ({ filter }) => {
   const [sortBy, setSortBy] = useState('name');
   const [ascending, setAscending] = useState(true);
   const [favorites, setFavorites] = useState([]);
-  
   const { addUserToRoom } = useRoomManager();
 
   const fetchLobbies = () => {
@@ -58,15 +57,22 @@ const LobbyList = ({ filter }) => {
     }
   };
 
-  const handleJoinLobby = (roomId) => {
-    addUserToRoom(roomId); // Use RoomManager to add user to room
-  };
+  const handleJoinLobby = async (lobby) => {
+    if (lobby.isLocked) {
+      const password = prompt("This lobby is locked. Please enter the password to join:");
+      if (password !== lobby.password) {
+        alert("Incorrect password.");
+        return;
+      }
+    }
+    addUserToRoom(lobby.id);
+  };  
 
   const getFilteredAndSortedLobbies = () => {
     return lobbies
       .filter(lobby => showPrivate || !lobby.isLocked)
       .filter(lobby => !showOnlyFavorites || favorites.includes(lobby.id))
-      .filter(lobby => lobby.name.toLowerCase().includes(filter.toLowerCase()))
+      .filter(lobby => lobby.name ? lobby.name.toLowerCase().includes(filter.toLowerCase()) : false)
       .sort((a, b) => {
         if (favorites.includes(a.id) !== favorites.includes(b.id)) {
           return favorites.includes(b.id) ? 1 : -1;
@@ -78,7 +84,7 @@ const LobbyList = ({ filter }) => {
         }
         return 0;
       });
-  };
+  };  
 
   return (
     <div>
@@ -115,7 +121,7 @@ const LobbyList = ({ filter }) => {
               </div>
               <p className="lobby-description">{lobby.description}</p>
             </div>
-            <button className="lobby-join-btn" onClick={() => handleJoinLobby(lobby.id)}>Join</button>
+            <button className="lobby-join-btn" onClick={() => handleJoinLobby(lobby)}>Join</button>
           </div>
         ))}
       </div>
