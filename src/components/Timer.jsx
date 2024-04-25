@@ -145,10 +145,8 @@ function Timer() {
 
   return (
     <section className="hero" style={{ backgroundImage: `url(${backGrounds[currentBackground]})` }}>
-
       <div className="content">
-      
-        <h1 className="display-4 mb-3">
+        <h1 className="h1">
           {("0" + Math.floor((time / 60000) % 60)).slice(-2)}:
           {("0" + Math.floor((time / 1000) % 60)).slice(-2)}
         </h1>
@@ -159,12 +157,14 @@ function Timer() {
         >
           {isHovering && !timerOn && (
             <>
-              
-              <button className="btn btn-primary me-5 mb-3" onClick={() => setTimeOn(true)}>Start</button>
-              <button className="btn btn-primary mb-3" onClick={() => setTime(0)}>Reset</button>
-              <input type="number" className="form-control mb-3" onChange={handleMinuteChange} placeholder='Minutes' />
-              <input type="number" className="form-control mb-3" onChange={handleSecondsChange} placeholder='Seconds' />
-              <button className="btn btn-success btn-lg mb-3" onClick={changeBackground}>Change Theme</button>
+              <button className="btn btn-primary" onClick={changeBackground}>Change Theme</button>
+              <button className="btn btn-primary me-5" onClick={() => {
+                setTimeOn(true);
+                updateTime(minutes, seconds);
+              }}>Start</button>
+              <button className="btn btn-primary" onClick={() => setTime(0)}>Reset</button>
+              <input type="number" className="form-control" onChange={handleMinuteChange} placeholder='Minutes' />
+              <input type="number" className="form-control" onChange={handleSecondsChange} placeholder='Seconds' />
             </>
           )}
           {isHovering && timerOn && (
