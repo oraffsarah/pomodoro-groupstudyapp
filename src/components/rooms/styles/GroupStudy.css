@@ -1,47 +1,56 @@
 body {
-    padding: 0;
     margin: 0;
-    height: 100vh;
+    padding: 0;
+    justify-content: center;
     align-items: center;
-  }
-
-.timer-div {
-    background-color: lightblue;
-}
-
-.chat-div {
-    background-color: lightsalmon;
-}
-
-.tasks-div {
-    background-color: lightseagreen;
-}
-
-.notes-div {
-    background-color: lightyellow;
+    height: 100vh;
+    background-color: #f4f4f9;
 }
 
 .groupPage-container {
-    display: grid;
-    grid-template-columns: 3fr 2fr;
-    grid-template-rows: 2fr 3fr;
-    justify-content: center;
-    justify-items: stretch;
-    margin: 20px;
+    display: flex;
     width: 100%;
-    min-height:100vh;
-    margin: 0;
-    padding: 10px;
-    height: 500px;
-    background-color: aqua;
+    height: 95%;
+    margin: 20px;
 }
 
-.exit-div{
-    display: inline-flex;
-    height: 50px;
-    width: 200px;
+.left-section {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+
+.timer-tasks-container {
+    display: flex;
+}
+
+.timer-div {
+    flex: 1;
+    background-color: #add8e6;
+    padding: 10px;
+    display: flex;
     justify-content: center;
-    text-align: center;
     align-items: center;
-    background-color: white;
+}
+
+.tasks-div {
+    flex: 1;
+    background-color: #20b2aa;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-div {
+    background-color: #ffa07a;
+    height: 50%;
+    padding: 10px;
+}
+
+.notes-div {
+    flex: 3;
+    background-color: #ffffe0;
+    padding: 10px;
+    justify-content: center;
 }

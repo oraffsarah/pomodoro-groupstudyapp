@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getDatabase, get, ref, set, onValue } from "firebase/database";
+import './styles/Notes.css';
 
 export const Notes = (props) => {
     const db = getDatabase();

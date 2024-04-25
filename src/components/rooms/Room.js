@@ -41,6 +41,7 @@ const Room = () => {
 
     return (
         <div>
+            <button onClick={handleLeaveRoom}>Leave Lobby</button>
             <h1>Room: {roomName}</h1>
             <h2>Current Users:</h2>
             <ul>
@@ -51,7 +52,6 @@ const Room = () => {
             )}
             </ul>
             <GroupStudy room={roomId}/>
-            <button onClick={handleLeaveRoom}>Leave Lobby</button>
         </div>
     );
 };

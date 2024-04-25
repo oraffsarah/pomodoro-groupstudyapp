@@ -77,7 +77,7 @@ const useRoomManager = () => {
       name,
       maxUsers,
       description,
-      isLocked: isPrivate,
+      isLocked,
       roomId,
       notes,
       timer
