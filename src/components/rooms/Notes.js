@@ -33,10 +33,23 @@ export const Notes = (props) => {
         });
     };
 
+    const handleOnChange = (event) => {
+        setNoteContent(event.target.value);
+    };
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            set(ref(db, `lobbies/${ lobby }/notes`), {
+                content: {noteContent}
+            });
+        }, 1000);
+        return () => clearTimeout(timeoutId);
+    }, [noteContent]);
+
     return (
         <div className="personal-notes">
             <h5>Group Notes</h5>
-            <textarea value={noteContent} onChange={handleNoteChange} onBlur={handleNoteChange}>
+            <textarea value={noteContent} onChange={handleOnChange} onBlur={handleNoteChange}>
             </textarea>
         </div>
     );
