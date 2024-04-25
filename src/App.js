@@ -9,6 +9,7 @@ import Room from './components/rooms/Room';
 import { RoomManagerProvider } from './components/rooms/RoomManagerContext';
 import Timer from './components/Timer.jsx';
 import './App.css';
+import StatisticPage from './statisticsPage/statisticsPage.js';
 
 const App = () => {
   return (
@@ -21,6 +22,11 @@ const App = () => {
           <Route path="/dashboard" element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/statistics" element={
+            <ProtectedRoute>
+              <StatisticPage />
             </ProtectedRoute>
           } />
           <Route path="/rooms/:roomId" element={

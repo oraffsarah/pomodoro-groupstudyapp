@@ -15,9 +15,10 @@ function Timer() {
   const [currentBackground, setCurrentBackground] = useState(0);
   const [time, setTime] = useState(0);
   const [timerOn, setTimeOn] = useState(false);
+  const [sum, setSum] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
-  const [isHovering, setIsHovering] = useState(false);
+  const [isHovering, setIsHovering] = useState(true); //false
 
   useEffect(() => {
     const millisecs = (minutes * 60000) + (seconds * 1000);
@@ -67,7 +68,7 @@ function Timer() {
         <div
           className='hoverArea'
           onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)}
+          onMouseLeave={() => setIsHovering(true)} //false
         >
           {isHovering && !timerOn && (
             <>

@@ -34,6 +34,7 @@ const Navbar = () => {
         {currentUser ? (
           <>
             <Link to="/dashboard" className="navbar-link">Dashboard</Link>
+            <Link to="/statistics" className="navbar-link">Statistics</Link>
             <div className="user-info">
               <span className="user-name">{currentUser.displayName}</span> {/* Assuming 'displayName' is the correct property */}
               <button className="navbar-button" onClick={handleLogout}>Logout</button>
