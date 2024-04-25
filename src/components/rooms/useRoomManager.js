@@ -70,12 +70,17 @@ const useRoomManager = () => {
 
   const createLobby = useCallback(async ({ name, maxUsers, description, isLocked, password }) => {
     const roomId = generateRoomId();
+    const content = "";
+    const notes = {content};
+    const timer = {};
     const lobbyData = {
       name,
       maxUsers,
       description,
-      isLocked,
-      roomId
+      isLocked: isPrivate,
+      roomId,
+      notes,
+      timer
     };
 
     // Include the password in the lobby data if the lobby is locked
