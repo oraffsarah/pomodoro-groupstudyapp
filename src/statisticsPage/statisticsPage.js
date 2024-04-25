@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import './statisticsPage.css';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, setDoc, getDoc, query, collection, where, orderBy, getDocs, addDoc  } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, getDoc, query, collection, where, orderBy, getDocs, addDoc } from 'firebase/firestore';
 import { auth, provider, database } from '../Firebase/firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth'; // 引入身份验证相关函数
 import 'bootstrap/dist/css/bootstrap.min.css'; // 确保导入了Bootstrap的CSS
@@ -36,6 +36,10 @@ function StatisticPage() {
         return localDate;
     }
 
+    
+
+
+
     // 提交数据到 Firebase
     async function submitData() {
         const hoursInput = document.getElementById('hours');
@@ -57,9 +61,9 @@ function StatisticPage() {
                 hours: totalHours.toFixed(2),
                 date: todayDate
             };
-    
+
             await setDoc(doc(db, 'studyData', docId), docData);
-    
+
             // Update study dates array
             const userRef = doc(db, 'users', userId);
             const userSnap = await getDoc(userRef);
@@ -71,7 +75,7 @@ function StatisticPage() {
                     }, { merge: true });
                 }
             }
-    
+
             // Clear input and refetch data
             hoursInput.value = '';
             minutesInput.value = '';
@@ -103,13 +107,12 @@ function StatisticPage() {
             where('date', '==', todayDate),
             orderBy('hours', 'desc')
         );
-    
+
         const querySnapshot = await getDocs(rankingQuery);
         const rankingDataPromises = querySnapshot.docs.map(async (docSnapshot) => {
             const userData = docSnapshot.data();
             const userRef = doc(db, 'users', userData.userId);
             const userDoc = await getDoc(userRef);
-    
             // 检查用户是否选择隐藏他们的排名
             if (userDoc.exists() && userDoc.data().hideFromRankings) {
                 return null; // 用户选择隐藏排名时，返回null
@@ -126,10 +129,14 @@ function StatisticPage() {
                 avatarUrl: userInfo.avatarUrl || './default.png'
             };
         });
-    
+
         const rankingData = (await Promise.all(rankingDataPromises)).filter(Boolean); // 移除所有null项
         setRankings(rankingData);
     }, [db]);
+
+
+
+
     
     
     
@@ -169,8 +176,8 @@ function StatisticPage() {
         </div>
     );
 
-// 使用该组件
-<ToggleSwitch />
+    // 使用该组件
+    <ToggleSwitch />
 
 
     // 初始加载时获取今天的学习时长
@@ -187,7 +194,7 @@ function StatisticPage() {
                 // 用户已登录
                 setUserId(user.uid); // 将用户的 UID 设置为 userId
                 setUserAvatar(user.photoURL); // 设置用户头像 URL
-    
+
                 // 获取用户数据
                 const userRef = doc(db, 'users', user.uid);
                 const userSnap = await getDoc(userRef);
@@ -195,7 +202,7 @@ function StatisticPage() {
                     // 读取用户是否隐藏排名的设置
                     const hideFromRankings = userSnap.data().hideFromRankings || false;
                     setIsToggleActive(hideFromRankings); // 设置隐藏排名的状态
-    
+
                     // 存储用户信息
                     await setDoc(userRef, {
                         userId: user.uid,
@@ -212,41 +219,41 @@ function StatisticPage() {
                 setIsToggleActive(false); // 重置隐藏排名状态
             }
         });
-    
+
         return () => unsubscribe();
     }, [db]);
-    
-    
+
+
     useEffect(() => {
         const updateUserProfile = async () => {
             const auth = getAuth();
             const user = auth.currentUser;
-    
+
             if (user) {
                 await user.reload(); // 强制重新加载用户的最新信息
                 console.log('Updated User Name:', user.displayName); // 打印最新的用户名
                 setUserAvatar(user.photoURL); // 更新头像
             }
         };
-    
+
         updateUserProfile();
     }, []);
-    
+
     function calculateStreak(dates) {
         if (!dates || dates.length === 0) return 0;
-    
+
         let streak = 0;
         let currentDate = new Date();
         currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-    
+
         while (dates.includes(currentDate.toISOString().slice(0, 10))) {
             streak++;
             currentDate.setDate(currentDate.getDate() - 1);
         }
-    
+
         return streak;
     }
-    
+
     const [streak, setStreak] = useState(0);
 
     useEffect(() => {
@@ -271,7 +278,7 @@ function StatisticPage() {
             <h3 className="mb-4">{getTodayDate()}</h3>
             <h1 className="mb-4">Study Time Statistics</h1>
             <div className="mb-3">
-            <input type="number" id="hours" className="form-control d-inline-block w-auto mr-2" placeholder="Enter study hours" />
+                <input type="number" id="hours" className="form-control d-inline-block w-auto mr-2" placeholder="Enter study hours" />
                 <input type="number" id="minutes" className="form-control d-inline-block w-auto mr-2" placeholder="Enter study minutes" />
                 <input type="number" id="seconds" className="form-control d-inline-block w-auto mr-2" placeholder="Enter study seconds" />
                 <button onClick={submitData} className="btn btn-primary">Submit</button>
@@ -281,7 +288,7 @@ function StatisticPage() {
             </div>
             <div className="streak-display">
                 <h4>
-                You have studied for {streak + 1} {streak + 1 === 1 ? 'consecutive day! 🔥' : 'consecutive days! 🔥'}
+                    You have studied for {streak + 1} {streak + 1 === 1 ? 'consecutive day! 🔥' : 'consecutive days! 🔥'}
                 </h4>
             </div>
             <div id="rankingDisplay">
@@ -306,7 +313,7 @@ function StatisticPage() {
                     <p>No study data for today.</p>
                 )}
             </div>
-    </div>
+        </div>
     );
 }
 

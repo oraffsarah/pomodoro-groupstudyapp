@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { auth, provider, database } from '../../Firebase/firebase';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import {
   signInWithPopup,
   createUserWithEmailAndPassword,
@@ -45,7 +48,7 @@ const Login = () => {
     });
   }, [navigate, setUser]);
 
-  const handleGoogleLogin = async() => {
+  const handleGoogleLogin = async () => {
     await signInWithPopup(auth, provider);
     setSignInWithGoogle(true);
     setAwaitingUsername(true);
@@ -136,70 +139,77 @@ const Login = () => {
   
 
   return (
-    <div>
-      {signInWithGoogle? <h1>Finalize Your Registration</h1> : <h1>{isRegistering ? 'Register' : 'Login'}</h1>}
-      {awaitingUsername ? (
-        <form onSubmit={handleUsernameAssignment}>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Choose your username"
-            required
-          />
-          <button type="submit">Set Username</button>
-        </form>
-      ) : (
-        <form onSubmit={handleRegistration}>
-          {isRegistering && (
-            <>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
-                required
-              />
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                required
-              />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                required
-              />
-              <button type="submit">Register</button>
-            </>
-          )}
-          {!isRegistering && (
-            <>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                required
-              />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                required
-              />
-              <button type="submit">Login</button>
-              <button onClick={handleGoogleLogin}>Login with Google</button>
-              <button onClick={() => setIsRegistering(!isRegistering)}>Switch to Register</button>
-            </>
-          )}
-        </form>
-      )}
+    <div className='container mt-5'>
+      <div className="row justify-content-center">
+        {signInWithGoogle ? <h3 className='text-center mb-4'>Finalize Your Registration</h3> : <h3 className='text-center mb-4'>{isRegistering ? 'Register' : 'Login'}</h3>}
+        {awaitingUsername ? (
+          <form onSubmit={handleUsernameAssignment}>
+            <input
+              type="text"
+              value={username}
+              className="form-control mb-2"
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Choose your username"
+              required
+            />
+            <button type="submit" className='btn btn-secondary'>Set Username</button>
+          </form>
+        ) : (
+          <form onSubmit={handleRegistration}>
+            {isRegistering && (
+              <>
+                <input
+                  type="text"
+                  value={username}
+                  className="form-control mb-2"
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Username"
+                  required
+                />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email"
+                  required
+                />
+                <input
+                  type="password"
+                  value={password}
+                  className="form-control mb-3"
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  required
+                />
+                <button type="submit" className='btn btn-secondary'>Register</button>
+              </>
+            )}
+            {!isRegistering && (
+              <>
+                <input
+                  type="email"
+                  value={email}
+                  className="form-control mb-2"
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email"
+                  required
+                />
+                <input
+                  type="password"
+                  value={password}
+                  className="form-control mb-3"
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  required
+                />
+                <button type="submit" className='btn btn-secondary'>Login</button>
+                <button onClick={handleGoogleLogin} className='btn btn-secondary'>Login with Google</button>
+                <button onClick={() => setIsRegistering(!isRegistering)} className='btn btn-secondary' >Switch to Register</button>
+              </>
+            )}
+          </form>
+        )}
+      </div>
     </div>
   );
 };
