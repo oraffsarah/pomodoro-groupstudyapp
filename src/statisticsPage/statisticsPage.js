@@ -232,15 +232,13 @@ const fetchRankings = useCallback(async () => {
         <div className="container mt-5">
             <h3 className="mb-4">{getTodayDate()}</h3>
             <h1 className="mb-4">Study Time Statistics</h1>
-            <div className="mb-3">
+            {/* <div className="mb-3">
             <input type="number" id="hours" className="form-control d-inline-block w-auto mr-2" placeholder="Enter study hours" />
                 <input type="number" id="minutes" className="form-control d-inline-block w-auto mr-2" placeholder="Enter study minutes" />
                 <input type="number" id="seconds" className="form-control d-inline-block w-auto mr-2" placeholder="Enter study seconds" />
                 <button onClick={submitData} className="btn btn-primary">Submit</button>
-            </div>
-            <div id="dataDisplay" className="mb-3">
-                <h4>{todayHours ? `Today you have studied ${todayHours} hours.` : 'No study data for today.'}</h4>
-            </div>
+            </div> */}
+            <h4 id="dataDisplay" className="mb-3">{todayHours ? `Today you have studied ${todayHours} hours.` : 'No study data for today.'}</h4>
             <div id="rankingDisplay">
                 <div className="rankingTitle">
                     <h2 >Today's Rankings</h2>
