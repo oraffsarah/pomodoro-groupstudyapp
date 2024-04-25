@@ -1,0 +1,72 @@
+/* Base styling for the chat app container */
+.chat-app {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #f0f4f8; /* Soft blue-grey background */
+    padding: 20px;
+    height: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Styling for the message display area */
+.messages {
+    flex-grow: 1;
+    overflow-y: auto; /* Allows scrolling */
+    padding: 10px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" patternUnits="userSpaceOnUse"><rect fill="#f0f4f8" width="100" height="100"/><circle fill="#e6ebf1" cx="50" cy="50" r="30"/></svg>') repeat;
+    /* subtle dot pattern on the background */
+}
+
+/* Styling individual messages */
+.messages div {
+    background-color: #ffffff; /* White background for messages */
+    padding: 10px;
+    margin-bottom: 8px; /* Space between messages */
+    border-radius: 4px; /* Rounded corners for message bubbles */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Light shadow for depth */
+}
+
+/* Bold styling for the user's name */
+.user {
+    font-weight: bold;
+    color: #333; /* Dark grey for contrast */
+    margin-right: 5px; /* Space after the username */
+}
+
+/* Input and button container */
+.new-message-form {
+    display: flex;
+    margin-top: 10px; /* Separates form from messages list */
+}
+
+/* Styling for the message input */
+.new-message-input {
+    flex-grow: 1; /* Allows input to fill space */
+    padding: 12px;
+    border: 2px solid #ddd; /* Subtle border */
+    border-radius: 20px; /* Rounded borders for a modern look */
+    outline: none; /* Removes the default focus outline */
+    margin-right: 8px; /* Spacing between input and button */
+}
+
+.new-message-input:focus {
+    border-color: #bbb; /* Changes border color on focus */
+}
+
+/* Styling for the send button */
+.send-button {
+    padding: 12px 20px;
+    background-color: #5c67f2; /* Soft blue for the button */
+    color: white;
+    border: none;
+    border-radius: 20px; /* Rounded borders for the button */
+    cursor: pointer; /* Indicates the element is clickable */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.send-button:hover {
+    background-color: #4a54e1; /* Darker blue on hover */
+}
