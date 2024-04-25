@@ -70,9 +70,13 @@ const useRoomManager = () => {
 
   const createLobby = useCallback(async ({ name, maxUsers, description, isLocked, password }) => {
     const roomId = generateRoomId();
-    const content = "";
+    const noteContent = "";
+    const content = {noteContent};
     const notes = {content};
-    const timer = {};
+    const endAt = -1;
+    const startAt = 0;
+    const timerOn = false;
+    const timer = {endAt, startAt, timerOn};
     const lobbyData = {
       name,
       maxUsers,
