@@ -109,23 +109,28 @@ function StatisticPage() {
             const userData = docSnapshot.data();
             const userRef = doc(db, 'users', userData.userId);
             const userDoc = await getDoc(userRef);
-            
+    
             // 检查用户是否选择隐藏他们的排名
             if (userDoc.exists() && userDoc.data().hideFromRankings) {
                 return null; // 用户选择隐藏排名时，返回null
             }
             
+            // 检查userDoc是否存在并获取username或email
+            const userInfo = userDoc.exists() ? userDoc.data() : {};
+            const username = userInfo.username || userInfo.email; // 如果username为null或undefined，则使用email
+            
             return {
                 ...userData,
                 id: docSnapshot.id,
-                username: userDoc.exists() ? userDoc.data().username : "Anonymous",
-                avatarUrl: userDoc.exists() ? userDoc.data().avatarUrl : './logo512.png'
+                username: username, // 使用username或email
+                avatarUrl: userInfo.avatarUrl || './default.png'
             };
         });
     
         const rankingData = (await Promise.all(rankingDataPromises)).filter(Boolean); // 移除所有null项
         setRankings(rankingData);
     }, [db]);
+    
     
     
     
@@ -290,7 +295,7 @@ function StatisticPage() {
                             <li key={user.id} className="ranking-item"> {/* 应用新的样式类 */}
                                 <div>
                                     <span>{index + 1}. </span> {/* 显示排名 */}
-                                    <img src={user.avatarUrl || './logo512.png'} alt="User Avatar" className="rounded-circle" />
+                                    <img src={user.avatarUrl || './default.png'} alt="User Avatar" className="rounded-circle" />
                                     <span>{user.username}</span> {/* 显示用户的用户名 */}
                                 </div>
                                 <span>{user.hours} hours</span> {/* 学习时长显示在最右边 */}
