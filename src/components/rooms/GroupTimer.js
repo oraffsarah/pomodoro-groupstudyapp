@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getDatabase, ref, set, onValue } from "firebase/database";
+import { getDatabase, ref, set, get, onValue } from "firebase/database";
 import TimerSettingsModal from "./TimerSettingsModal";
 import './styles/GroupTimer.css';
 
@@ -30,6 +30,11 @@ export const GroupTimer = ({ room }) => {
                 }
             } else {
                 setTimerOn(false);
+                resetTimer();
+            }
+
+            const endAt = snapshot.val().endAt;
+            if (endAt == -1) {
                 resetTimer();
             }
         });
@@ -87,6 +92,15 @@ export const GroupTimer = ({ room }) => {
 
     const handleReset = () => {
         resetTimer();
+
+        const currentData = get(timerRef).then((snapshot) => {
+
+        });
+        set(timerRef, {
+            ...currentData,
+            timerOn: false,
+            endAt: -1,
+        });
     };
 
     const resetSessionCount = () => {
@@ -114,10 +128,12 @@ export const GroupTimer = ({ room }) => {
                 <div>{isStudyTimer ? "Study Timer" : "Break Timer"}</div>
                 {Math.floor(duration / 60000).toString().padStart(2, '0')}:{Math.floor((duration % 60000) / 1000).toString().padStart(2, '0')}
             </div>
-            <button onClick={handleStartPause}>
-                {timerOn ? 'Pause' : 'Start'}
-            </button>
-            <button onClick={handleReset}>Reset</button>
+            <div className="groupTimerBtnDiv">
+                <button onClick={handleStartPause}>
+                    {timerOn ? 'Pause' : 'Start'}
+                </button>
+                <button onClick={handleReset}>Reset</button>
+            </div>
             <div>Study Intervals Completed: {sessionCount}</div>
             {showSettings && <TimerSettingsModal
                 onClose={() => {
