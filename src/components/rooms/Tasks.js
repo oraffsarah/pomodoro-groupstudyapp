@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { addDoc, collection, deleteDoc, doc, serverTimestamp, onSnapshot, query, where, orderBy, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, serverTimestamp, onSnapshot, query, where, orderBy, updateDoc, getDoc } from 'firebase/firestore';
 import { auth, dbfirestore } from '../../Firebase/firebase';
 import './styles/Tasks.css';
 
@@ -37,13 +37,27 @@ export const Tasks = (props) => {
 
     async function handleDelete(taskId) {
         await deleteDoc(doc(dbfirestore, "tasks", taskId));
-    }
+        setTasks(currentTasks => currentTasks.filter(task => task.id !== taskId));
+    }    
 
     async function toggleCompletion(taskId, completed) {
-        await updateDoc(doc(dbfirestore, "tasks", taskId), {
-            completed: !completed
-        });
-    }
+        const existingTask = tasks.find(task => task.id === taskId);
+        if (!existingTask) {
+            console.log("Task not found in local state");
+            return;
+        }
+    
+        const taskDocRef = doc(dbfirestore, "tasks", taskId);
+        const docSnap = await getDoc(taskDocRef);
+        
+        if (docSnap.exists()) {
+            await updateDoc(taskDocRef, {
+                completed: !completed
+            });
+        } else {
+            console.log("No such document in Firestore!");
+        }
+    }    
 
     const handleDragStart = (e, taskId) => {
         e.dataTransfer.setData("taskId", taskId);

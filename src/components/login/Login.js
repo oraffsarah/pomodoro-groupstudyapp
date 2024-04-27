@@ -11,7 +11,7 @@ import { auth, database, provider } from '../../Firebase/firebase';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { ref, set, get } from 'firebase/database';
 import { getDoc } from 'firebase/firestore';
-
+import './login.css'
 
 
 const db = getFirestore(); 

@@ -2,7 +2,9 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    max-height: 700px;
     overflow-y: auto; /* Scrollable list */
+    overflow-x: hidden;
     width: 100%; /* Full width of the parent container */
     padding: 1rem; /* Padding on the sides of the container */
     margin: 0;
@@ -90,6 +92,7 @@
   .lobby-filters button {
     cursor: pointer;
     font-size: 0.9rem;
+    color: black;
   }
   
   .lobby-filters button {
