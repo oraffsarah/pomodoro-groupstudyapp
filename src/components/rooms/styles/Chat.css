@@ -20,6 +20,29 @@
     /* subtle dot pattern on the background */
 }
 
+.timestamp {
+    position: absolute;
+    font-size: small;
+    color: grey;
+    right: 10px; /* Positions the timestamp to the far right */
+    white-space: nowrap; /* Keeps timestamp on a single line */
+    opacity: 0; /* Makes timestamp invisible by default */
+    transition: opacity 0.2s ease-in-out; /* Smooth transition for opacity */
+}
+
+.message-item {
+    display: flex;
+    align-items: center;
+    justify-content: start; /* Aligns items to the left */
+    padding: 10px;
+    position: relative; /* Allows absolute positioning for children */
+    width: 100%; /* Ensures the item takes full width */
+}
+
+.message-item:hover .timestamp {
+    opacity: 1; /* Makes timestamp visible on hover */
+}
+
 /* Styling individual messages */
 .messages div {
     background-color: #ffffff; /* White background for messages */
@@ -32,8 +55,11 @@
 /* Bold styling for the user's name */
 .user {
     font-weight: bold;
-    color: #333; /* Dark grey for contrast */
-    margin-right: 5px; /* Space after the username */
+    margin-right: 8px;
+}
+
+.message-text {
+    flex-grow: 1; /* Ensures message text fills the space */
 }
 
 /* Input and button container */

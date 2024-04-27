@@ -15,14 +15,19 @@ export const Chat = (props) => {
         const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
             let messages = [];
             snapshot.forEach((doc) => {
-                messages.push({...doc.data(), id: doc.id});
+                const data = doc.data();
+                messages.push({
+                    ...data,
+                    id: doc.id,
+                    createdAt: data.createdAt?.toDate().toLocaleTimeString()  // Convert timestamp to time string
+                });
             });
 
             setMessages(messages);
         });
 
         return () => unsubscribe();
-    }, []);
+    }, [room]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -40,17 +45,21 @@ export const Chat = (props) => {
 
     return (
         <div className="chat-app">
-            {/* <div className="header"><h1>Welcome to: {room}</h1></div> */}
-            <div className="messages"> {messages.map((message) => 
-                <div>
-                    <span className="user"><b>{message.user}</b></span> { }
-                    {message.text}
-                </div>
-            )}</div>
+            <div className="messages"> 
+                {messages.map((message) => (
+                    <div key={message.id} className="message-item">
+                        <span className="user">{message.user}:</span>
+                        <span className="message-text">{message.text}</span>
+                        <span className="timestamp" title={`Sent at: ${message.createdAt}`}>
+                            {message.createdAt}
+                        </span>
+                    </div>
+                ))}
+            </div>
             <form onSubmit={handleSubmit} className="new-message-form">
                 <input className="new-message-input" placeholder="Type message here" onChange={(e) => setNewMessage(e.target.value)} value={newMessage}/>
                 <button type="submit" className="send-button">Send</button>
             </form>
         </div>
     );
-}
+};

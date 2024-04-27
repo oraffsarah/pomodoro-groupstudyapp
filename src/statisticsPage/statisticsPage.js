@@ -5,6 +5,7 @@ import { getFirestore, doc, setDoc, getDoc, query, collection, where, orderBy, g
 import { auth, provider, database } from '../Firebase/firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth'; // 引入身份验证相关函数
 import 'bootstrap/dist/css/bootstrap.min.css'; // 确保导入了Bootstrap的CSS
+import defaultUserAvatar from '../image/defaultUser.png';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCNv4KHIXBNa5Cbw0s1_EpU2IsH2RsThPw",
@@ -120,7 +121,7 @@ const fetchRankings = useCallback(async () => {
             ...userData,
             id: docSnapshot.id,
             username: username, // 使用 username 或 email 前半部分或 'Unknown'
-            avatarUrl: userInfo.avatarUrl || './default.png'
+            avatarUrl: userInfo.avatarUrl || defaultUserAvatar
         };
     });
 
@@ -252,7 +253,7 @@ const fetchRankings = useCallback(async () => {
                             <li key={user.id} className="ranking-item"> {/* 应用新的样式类 */}
                                 <div>
                                     <span>{index + 1}. </span> {/* 显示排名 */}
-                                    <img src={user.avatarUrl || './default.png'} alt="User Avatar" className="rounded-circle" />
+                                    <img src={user.avatarUrl || defaultUserAvatar} alt="User Avatar" className="rounded-circle" />
                                     <span>{user.username}</span> {/* 显示用户的用户名 */}
                                 </div>
                                 <span>{user.hours} hours</span> {/* 学习时长显示在最右边 */}

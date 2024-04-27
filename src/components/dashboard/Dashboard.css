@@ -1,7 +1,7 @@
 .dashboard {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 90vh;
     align-items: center; /* Center children horizontally */
 }
 
@@ -50,7 +50,7 @@
 .personal-sidebar {
     position: fixed;
     top: 0;
-    width: 250px;
+    width: 300px;
     height: 100%;
     background-color: #f8f9fa;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -97,7 +97,7 @@
 }
 
 .toggle-sidebar.visible {
-    left: 250px; /* Moves out with the sidebar */
+    left: 300px; /* Moves out with the sidebar */
 }
 
 .toggle-friends {
