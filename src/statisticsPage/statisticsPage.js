@@ -259,7 +259,7 @@ const fetchRankings = useCallback(async () => {
                         ))}
                     </ol>
                 ) : (
-                    <p>0</p>
+                    <p></p>
                 )}
             </div>
     </div>
