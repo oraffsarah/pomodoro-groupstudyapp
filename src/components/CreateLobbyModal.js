@@ -7,21 +7,35 @@ const CreateLobbyModal = ({ isVisible, onClose }) => {
   const [maxUserCount, setMaxUserCount] = useState('');
   const [description, setDescription] = useState('');
   const [isPrivate, setIsPrivate] = useState(false);
-  const { createLobby } = useRoomManager(); // Use the createLobby function from the RoomManager hook
+  const [password, setPassword] = useState('');  // New state for password
+  const { createLobby } = useRoomManager();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Convert maxUserCount to a number and ensure it is valid
+    const maxUsers = parseInt(maxUserCount, 10);
+    if (!maxUsers || maxUsers <= 0) {
+      alert("Max user count must be greater than 0.");
+      return;
+    }
+
     const lobbyData = {
       name: lobbyName,
-      maxUsers: parseInt(maxUserCount, 10),
+      maxUsers,
       description,
       isLocked: isPrivate,
+      password: isPrivate ? password : null,  // Include password only if the lobby is private
     };
 
-    // Call createLobby instead of handling directly
-    const roomId = createLobby(lobbyData);
-    console.log('Lobby created successfully with ID:', roomId);
-    onClose(); // Close modal on submission
+    try {
+      const roomId = await createLobby(lobbyData);
+      console.log('Lobby created successfully with ID:', roomId);
+      onClose(); // Close modal on submission
+    } catch (error) {
+      console.error("Error creating lobby:", error);
+      alert("Failed to create lobby. Please try again.");
+    }
   };
 
   // Early return if not visible
@@ -66,6 +80,17 @@ const CreateLobbyModal = ({ isVisible, onClose }) => {
               onChange={(e) => setIsPrivate(e.target.checked)} 
             />
           </label>
+          {isPrivate && (
+            <label>
+              Lobby Password:
+              <input 
+                type="text" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required={isPrivate}
+              />
+            </label>
+          )}
           <button type="submit">Create Lobby</button>
           <button type="button" onClick={onClose}>Cancel</button>
         </form>

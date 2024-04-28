@@ -1,0 +1,63 @@
+body {
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    background-color: #f4f4f9;
+}
+
+.groupPage-container {
+    display: flex;
+    width: 100%;
+    height: 95%;
+}
+
+.left-section {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+.timer-tasks-container {
+    display: flex;
+    height: 300px;
+    min-width: 80%;
+}
+
+.timer-div {
+    flex: 1;
+    /* background-color: #add8e6; */
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tasks-div {
+    flex: 1;
+    border-radius: 4%;
+    background-color: #c6e6e4;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.chat-div {
+    /* background-color: #ffa07a; */
+    height: 50%;
+    padding: 10px;
+    min-height: 450px;
+    overflow-y: auto;
+}
+
+.notes-div {
+    flex: 3;
+    /* background-color: #ffffe0; */
+    padding: 10px;
+    justify-content: center;
+    max-height: 81.5vh;
+}

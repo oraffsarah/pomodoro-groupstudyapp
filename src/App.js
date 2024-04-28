@@ -8,6 +8,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import Room from './components/rooms/Room';
 import { RoomManagerProvider } from './components/rooms/RoomManagerContext';
 import Timer from './components/Timer.jsx';
+import './App.css';
 import StatisticPage from './statisticsPage/statisticsPage.js';
 
 const App = () => {

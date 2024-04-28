@@ -81,8 +81,8 @@ const PersonalNotes = () => {
   }
 
   return (
-    <div className="personal-notes">
-      <button onClick={createNewNote} disabled={notes.length >= 5}>Create New Note</button>
+    <div className="mb-3">
+      <button className='btn btn-secondary btn-lg mt-5 mb-3' onClick={createNewNote} disabled={notes.length >= 5}>Create New Note</button>
       <div className="notes-tabs">
         {notes.map((note, index) => (
           <div key={note.id} 
@@ -90,7 +90,7 @@ const PersonalNotes = () => {
                style={{backgroundColor: note.color}}
                onClick={() => selectNote(note.id)}>
             Note {index + 1}
-            <button onClick={() => handleDeleteNote(note.id)}>Delete</button>
+            <button className='btn btn-danger btn-small' onClick={() => handleDeleteNote(note.id)}>Delete</button>
           </div>
         ))}
       </div>

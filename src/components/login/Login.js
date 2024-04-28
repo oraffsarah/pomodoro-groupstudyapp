@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth, provider, database } from '../../Firebase/firebase';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/css/bootstrap.css';
 import {
-  signInWithRedirect,
-  getRedirectResult,
+  signInWithPopup,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signInWithPopup
+  getRedirectResult
 } from 'firebase/auth';
-import { ref, set, get } from 'firebase/database';
 import { useUser } from '../auth/UserContext';
+import { auth, database, provider } from '../../Firebase/firebase';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { ref, set, get } from 'firebase/database';
+import { getDoc } from 'firebase/firestore';
+import './login.css'
 
+
+const db = getFirestore(); 
 const Login = () => {
   const { currentUser, setUser } = useUser(); // Destructure correctly
   const navigate = useNavigate();
@@ -26,17 +28,15 @@ const Login = () => {
   useEffect(() => {
     getRedirectResult(auth).then((result) => {
       if (result?.user) {
-        // Check if username exists in the database under the user's UID
         const usernameRef = ref(database, `usernames/${result.user.uid}`);
         get(usernameRef).then((snapshot) => {
           if (!snapshot.exists()) {
-            setAwaitingUsername(true); // Prompt for username assignment
+            setAwaitingUsername(true); 
           } else {
-            // Set user with username retrieved from the database
             setUser({
               uid: result.user.uid,
               email: result.user.email,
-              displayName: snapshot.val()
+              username: snapshot.val()
             });
             navigate('/');
           }
@@ -47,7 +47,7 @@ const Login = () => {
     });
   }, [navigate, setUser]);
 
-  const handleGoogleLogin = async () => {
+  const handleGoogleLogin = async() => {
     await signInWithPopup(auth, provider);
     setSignInWithGoogle(true);
     setAwaitingUsername(true);
@@ -55,42 +55,60 @@ const Login = () => {
 
   const handleRegistration = async (event) => {
     event.preventDefault();
-    if (isRegistering) {
-      const isUnique = await checkUsernameUnique(username);
-      if (!isUnique) {
-        alert('Username is already taken, please choose another one.');
-        return;
-      }
-
-      createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
-        // Store username under user's UID
-        registerUsername(userCredential.user.uid, username).then(() => {
-          setUser({
-            uid: userCredential.user.uid,
-            email: userCredential.user.email,
-            displayName: username
-          });
-          navigate('/');
-        });
-      }).catch((error) => {
-        console.error('Registration failed:', error);
-        alert('Registration failed: ' + error.message);
-      });
-    } else {
-      signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-        setUser({
-          uid: userCredential.user.uid,
-          email: userCredential.user.email,
-          displayName: userCredential.user.email // Default to email if no username is set
-        });
-        navigate('/');
-      }).catch((error) => {
-        console.error('Login failed:', error);
-        alert('Login failed: ' + error.message);
-      });
+    if (!isRegistering) return;
+  
+    console.log('Calling checkUsernameUnique with username:', username);
+    const isUnique = await checkUsernameUnique(username);
+    if (!isUnique) {
+      alert('Username is already taken, please choose another one.');
+      return;
     }
+  
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log('User created with email and password:', email);
+    
+      const userData = {
+        userId: userCredential.user.uid,
+        username: username,
+        email: email 
+      };
+    
+      console.log('Attempting to save user data:', userData);
+    
+      try {
+        await setDoc(doc(db, 'users', userCredential.user.uid), userData);
+        console.log('User data saved to Firestore');
+        const snapshot = await getDoc(doc(db, 'users', userCredential.user.uid));
+        console.log('Read back data:', snapshot.data());
+      } catch (error) {
+        console.error('Failed to save user data in Firestore:', error);
+        alert('Failed to save user data: ' + error.message);
+        return; 
+      }
+    
+      try {
+        await registerUsername(userCredential.user.uid, username);
+        console.log('Username registered:', username);
+      } catch (error) {
+        console.error('Error setting username:', error);
+        alert('Error setting username: ' + error.message);
+        return; 
+      }
+    
+      setUser({
+        uid: userCredential.user.uid,
+        email: email,
+        username: username
+      });
+      navigate('/');
+    } catch (error) {
+      console.error('Registration failed:', error);
+      alert('Registration failed: ' + error.message);
+    }
+    
   };
-
+  
   const handleUsernameAssignment = async (event) => {
     event.preventDefault();
     if (!username.trim()) {
@@ -109,7 +127,7 @@ const Login = () => {
         setUser({
           uid: currentUser.uid,
           email: currentUser.email,
-          displayName: username
+          username: username
         });
         navigate('/');
       }).catch((error) => {
@@ -127,8 +145,14 @@ const Login = () => {
 
   const registerUsername = (userId, username) => {
     const usernamesRef = ref(database, `usernames/${userId}`);
-    return set(usernamesRef, username);
+    return set(usernamesRef, username)
+      .then(() => console.log(`Username ${username} registered for userId ${userId}`))
+      .catch(error => {
+        console.error('Failed to register username:', error);
+        alert('Error setting username: ' + error.message);
+      });
   };
+  
 
   return (
     <div className='container mt-5'>

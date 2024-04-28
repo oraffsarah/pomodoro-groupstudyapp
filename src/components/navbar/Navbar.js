@@ -1,17 +1,21 @@
-import React, { useEffect} from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../Firebase/firebase';
-import { useUser } from '../auth/UserContext';  // Corrected import
+import { useUser } from '../auth/UserContext'; // Corrected import
 import "./Navbar.css";
 
 const Navbar = () => {
-  const { currentUser } = useUser();  // Correctly using the imported hook
+  const { currentUser } = useUser(); // Correctly using the imported hook
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     console.log('Current user updated:', currentUser);
-  }, [currentUser]);  // Effect will run every time currentUser changes
+  }, [currentUser]); // Effect will run every time currentUser changes
+
+  // Determine if the current location is the login page
+  const isLoginRoute = location.pathname === '/login';
 
   const handleLogout = async () => {
     try {
@@ -32,12 +36,14 @@ const Navbar = () => {
             <Link to="/dashboard" className="navbar-link">Dashboard</Link>
             <Link to="/statistics" className="navbar-link">Statistics</Link>
             <div className="user-info">
-              <span className="user-name">{currentUser.name}</span> {/* Show username retrieved from context */}
+              <span className="user-name">{currentUser.displayName}</span> {/* Assuming 'displayName' is the correct property */}
               <button className="navbar-button" onClick={handleLogout}>Logout</button>
             </div>
           </>
         ) : (
-          <button className="navbar-button" onClick={() => navigate('/login')}>Login</button>
+          !isLoginRoute && (
+            <button className="navbar-button" onClick={() => navigate('/login')}>Login</button>
+          )
         )}
       </div>
     </nav>

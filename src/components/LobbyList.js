@@ -5,15 +5,17 @@ import { app } from '../Firebase/firebase';
 import unFaveStarIcon from '../image/unFaveStar.png';
 import faveStarIcon from '../image/faveStar.png';
 import useRoomManager from './rooms/useRoomManager';
+import { addFavoriteLobby, removeFavoriteLobby, fetchFavoriteLobbies } from '../Firebase/FirestoreServices';
+import { useUser } from './auth/UserContext';  // Ensure correct import path
 
 const LobbyList = ({ filter }) => {
+  const { currentUser } = useUser();
   const [lobbies, setLobbies] = useState([]);
   const [showPrivate, setShowPrivate] = useState(true);
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
   const [sortBy, setSortBy] = useState('name');
   const [ascending, setAscending] = useState(true);
   const [favorites, setFavorites] = useState([]);
-  
   const { addUserToRoom } = useRoomManager();
 
   const fetchLobbies = () => {
@@ -21,42 +23,56 @@ const LobbyList = ({ filter }) => {
     const lobbyRef = ref(database, 'lobbies');
     onValue(lobbyRef, snapshot => {
       const lobbiesData = snapshot.val();
-      const lobbiesList = lobbiesData ? Object.keys(lobbiesData).map(key => {
-        const lobby = lobbiesData[key];
-        const currentUsersCount = lobby.currentUsers ? Object.keys(lobby.currentUsers).length : 0;
-        return {
-          ...lobby,
-          id: key,
-          currentUsersCount
-        };
-      }) : [];
+      const lobbiesList = lobbiesData ? Object.keys(lobbiesData).map(key => ({
+        ...lobbiesData[key],
+        id: key,
+        currentUsersCount: lobbiesData[key].currentUsers ? Object.keys(lobbiesData[key].currentUsers).length : 0
+      })) : [];
       setLobbies(lobbiesList);
     });
   };
+
+  // Fetch favorites from Firestore on user change
+  useEffect(() => {
+    if (currentUser) {
+      fetchFavoriteLobbies(currentUser.uid).then(favLobbies => {
+        const favoriteIds = favLobbies.map(lobby => lobby.id);
+        setFavorites(favoriteIds);
+      });
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     fetchLobbies();
   }, []);
 
-  const handleRefresh = () => {
-    fetchLobbies();
+  // Updated toggle favorite to handle Firestore
+  const toggleFavorite = async (id) => {
+    if (favorites.includes(id)) {
+      await removeFavoriteLobby(currentUser.uid, id);
+      setFavorites(favs => favs.filter(favId => favId !== id));
+    } else {
+      await addFavoriteLobby(currentUser.uid, id);
+      setFavorites(favs => [...favs, id]);
+    }
   };
 
-  const toggleFavorite = (id) => {
-    setFavorites(currentFavorites =>
-      currentFavorites.includes(id) ? currentFavorites.filter(favId => favId !== id) : [...currentFavorites, id]
-    );
-  };
-
-  const handleJoinLobby = (roomId) => {
-    addUserToRoom(roomId); // Use RoomManager to add user to room
-  };
+  const handleJoinLobby = async (lobby) => {
+    if (lobby.isLocked) {
+      const password = prompt("This lobby is locked. Please enter the password to join:");
+      if (password !== lobby.password) {
+        alert("Incorrect password.");
+        return;
+      }
+    }
+    addUserToRoom(lobby.id);
+  };  
 
   const getFilteredAndSortedLobbies = () => {
     return lobbies
       .filter(lobby => showPrivate || !lobby.isLocked)
       .filter(lobby => !showOnlyFavorites || favorites.includes(lobby.id))
-      .filter(lobby => lobby.name.toLowerCase().includes(filter.toLowerCase()))
+      .filter(lobby => lobby.name ? lobby.name.toLowerCase().includes(filter.toLowerCase()) : false)
       .sort((a, b) => {
         if (favorites.includes(a.id) !== favorites.includes(b.id)) {
           return favorites.includes(b.id) ? 1 : -1;
@@ -68,7 +84,7 @@ const LobbyList = ({ filter }) => {
         }
         return 0;
       });
-  };
+  };  
 
   return (
     <div>
@@ -86,7 +102,7 @@ const LobbyList = ({ filter }) => {
         </label>
         <button onClick={() => setSortBy('name')}>Sort by Name</button>
         <button onClick={() => setSortBy('currentUsers')}>Sort by Users</button>
-        <button onClick={handleRefresh}>Refresh</button>
+        <button onClick={() => fetchLobbies()}>Refresh</button>
       </div>
       <div className="lobby-list">
         {getFilteredAndSortedLobbies().map(lobby => (
@@ -105,7 +121,7 @@ const LobbyList = ({ filter }) => {
               </div>
               <p className="lobby-description">{lobby.description}</p>
             </div>
-            <button className="lobby-join-btn" onClick={() => handleJoinLobby(lobby.id)}>Join</button>
+            <button className="lobby-join-btn" onClick={() => handleJoinLobby(lobby)}>Join</button>
           </div>
         ))}
       </div>
