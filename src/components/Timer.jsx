@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getFirestore, doc, setDoc, getDoc, query, collection, where, orderBy, getDocs, addDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useUser } from './auth/UserContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import image1 from "../image/train.jpg";
@@ -11,7 +12,7 @@ import image5 from "../image/297.jpg";
 import image6 from "../image/dock.jpg";
 
 
-const backGrounds = [ image1, image2, image3, image4, image5, image6];
+const backGrounds = [image1, image2, image3, image4, image5, image6];
 
 const db = getFirestore();
 
@@ -32,6 +33,7 @@ function Timer() {
   const [userId, setUserId] = useState(null);
   const [userAvatar, setUserAvatar] = useState(null);
   const [isToggleActive, setIsToggleActive] = useState(false);
+  const { currentUser } = useUser();
 
   useEffect(() => {
     const auth = getAuth();
@@ -79,14 +81,14 @@ function Timer() {
     let interval = null;
     if (timerOn) {
       interval = setInterval(() => {
-          setTime(prevTime => {
-              if (prevTime <= 0) { // Check if time has reached zero or below
-                  clearInterval(interval); // Stop the interval
-                  setTimeOn(false); // Stop the timer
-                  return 0; // Set time explicitly to zero
-              }
-              return prevTime - 10;
-          });
+        setTime(prevTime => {
+          if (prevTime <= 0) { // Check if time has reached zero or below
+            clearInterval(interval); // Stop the interval
+            setTimeOn(false); // Stop the timer
+            return 0; // Set time explicitly to zero
+          }
+          return prevTime - 10;
+        });
       }, 10);
     } else {
       clearInterval(interval);
@@ -160,7 +162,9 @@ function Timer() {
               <button className="btn btn-primary" onClick={changeBackground}>Change Theme</button>
               <button className="btn btn-primary me-5" onClick={() => {
                 setTimeOn(true);
-                updateTime(minutes, seconds);
+                if (currentUser) {
+                  updateTime(minutes, seconds);
+                }
               }}>Start</button>
               <button className="btn btn-primary" onClick={() => setTime(0)}>Reset</button>
               <input type="number" className="form-control" onChange={handleMinuteChange} placeholder='Minutes' />
