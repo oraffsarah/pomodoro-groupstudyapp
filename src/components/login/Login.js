@@ -51,7 +51,13 @@ const Login = () => {
     await signInWithPopup(auth, provider);
     setSignInWithGoogle(true);
     setAwaitingUsername(true);
+    navigate('/'); 
+    
   };
+
+  
+
+  
 
   const handleRegistration = async (event) => {
     event.preventDefault();
@@ -155,70 +161,84 @@ const Login = () => {
   
 
   return (
-    <div>
-      {signInWithGoogle? <h1>Finalize Your Registration</h1> : <h1>{isRegistering ? 'Register' : 'Login'}</h1>}
-      {awaitingUsername ? (
-        <form onSubmit={handleUsernameAssignment}>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Choose your username"
-            required
-          />
-          <button type="submit">Set Username</button>
-        </form>
-      ) : (
-        <form onSubmit={handleRegistration}>
-          {isRegistering && (
-            <>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
-                required
-              />
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                required
-              />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                required
-              />
-              <button type="submit">Register</button>
-            </>
-          )}
-          {!isRegistering && (
-            <>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                required
-              />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                required
-              />
-              <button type="submit">Login</button>
-              <button onClick={handleGoogleLogin}>Login with Google</button>
-              <button onClick={() => setIsRegistering(!isRegistering)}>Switch to Register</button>
-            </>
-          )}
-        </form>
-      )}
+    <div class="styledLogin" >
+      <div>
+        {signInWithGoogle ? <h1 class="styledH1">Finalize Your Registration</h1> : <h1 class="styledH1" >{isRegistering ? 'Register' : 'Login'}</h1>}
+        {awaitingUsername ? (
+          <form onSubmit={handleUsernameAssignment}>
+            <input
+              class="styledInput"
+              type="text"
+              value={username}
+            
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Choose your username"
+              required
+            />
+            <button class="styledButton" type="submit" >Set Username</button>
+          </form>
+        ) : (
+          <form onSubmit={handleRegistration}>
+            {isRegistering && (
+              <>
+                <input
+                  class="styledInput"
+                  type="text"
+                  value={username}
+                  
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Username"
+                  required
+                />
+                <input
+                  class="styledInput"
+                  type="email"
+                  value={email}
+                  
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email"
+                  required
+                />
+                <input
+                  class="styledInput"
+                  type="password"
+                  value={password}
+                  
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  required
+                />
+                <button class="styledButton" type="submit" >Register</button>
+              </>
+            )}
+            {!isRegistering && (
+              <>
+                <input
+                  class="styledInput"
+                  type="email"
+                  value={email}
+                  
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email"
+                  required
+                />
+                <input
+                  class="styledInput"
+                  type="password"
+                  value={password}
+                  
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  required
+                />
+                <button class="styledButton" type="submit" >Login</button>
+                <button class="styledButton" onClick={handleGoogleLogin} >Login with Google</button>
+                <button class="styledButton" onClick={() => setIsRegistering(!isRegistering)} >Switch to Register</button>
+              </>
+            )}
+          </form>
+        )}
+      </div>
     </div>
   );
 };
