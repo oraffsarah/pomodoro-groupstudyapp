@@ -106,5 +106,5 @@
 }
 
 .toggle-friends.visible {
-    right: 250px; /* Moves out with the friends list */
+    right: 300px; /* Moves out with the friends list */
 }
