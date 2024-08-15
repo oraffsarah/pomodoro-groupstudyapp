@@ -1,70 +1,18 @@
-# Getting Started with Create React App
+# **Pomodoro study app**
+### Author Note
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+My responsibility in this team project consisted of the 'group' aspect, creating the functionality and the visual pages for the group chatrooms. Each chatroom had four main components; the timer, which was sychronised across multiple clients using *Firebase Realtime* database; the task list, which was highly interactive; the chatbox, where groups could talk and share ideas real-time; and shared notes, where students could join forces to collaborate on their notes and see updates live. This component was highly interactive, with many functions required to work seamlessly and in real-time. It was a challenging experience that I thoroughly enjoyed. A special note to my team members whom, thanks to their efforts, allowed us to make a fun and useful project and receive a high mark.
 
-## Available Scripts
+## **Overview**
 
-In the project directory, you can run:
+This Pomodoro Study App is a web-app developed by our team, **"Team Prodigy"**, using *JavaScript React, HTML, Bootstrap* and *Firebase*.
 
-### `npm start`
+This project was a part of our module, **Software Project CS353C**, in Maynooth University, National University of Ireland Maynooth. 
+This module is worth 5 credits.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This application was designed inline with **AGILE** methodologies to be a study aid for users as individuals or as groups with the main aspect being the **Pomodoro Timer**. Beyond this, each user has the ability to create an account to access a personal dashboard, write notes, add friends and even study together in group spaces. We used **Google Firebase** to authenticate users as well as store our project data. This app has limitless possibilities for further development, such as implementing music from Spotify or adding background noise, or even data tracking to create analysis on study patterns. We added a rudimentary leaderboard system, where friends can compare and compete to reach the top with the highest study time. This application was well-received by our advisors and commended for the hard work and impressive components put into it.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## **Contributors**
+Team Prodigy was comprised of the following: Sarah O'Rafferty, Firose Shafin, Tim McSweeney, Zifan Luo, Lixuan Zhang, Daniel Dunne
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Special thanks to our lecturer Ronan Reilly, and our demonstrators Sean Conroy and Zhoukan Wang for their guidance and support.
